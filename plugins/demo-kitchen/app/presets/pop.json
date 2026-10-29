@@ -1,0 +1,76 @@
+{
+  "name": "Pop",
+  "description": "Playful and loud: bright colors, bouncy hand cursor, big clicks.",
+  "resetOthers": true,
+  "pace": 1.15,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 0.8,
+      "zoom": 1.03
+    },
+    "autoZoom": {
+      "on": true,
+      "amount": 1.6,
+      "ramp": 0.3,
+      "hold": 0.5
+    },
+    "cursor": {
+      "on": true,
+      "style": "hand",
+      "size": 76,
+      "shadow": 0.6,
+      "smoothness": 0.8
+    },
+    "naturalMotion": {
+      "on": true,
+      "arc": 0.3,
+      "overshoot": 0.9
+    },
+    "ripple": {
+      "on": true,
+      "size": 96,
+      "thickness": 7,
+      "duration": 0.45,
+      "color": "#FF3D7F"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.3,
+      "ring": true,
+      "ringColor": "#FF3D7F"
+    },
+    "typing": {
+      "on": true,
+      "cps": 24,
+      "caret": true
+    },
+    "captions": {
+      "on": true,
+      "style": "pill",
+      "position": "bottom",
+      "size": 44,
+      "fade": 0.25
+    },
+    "background": {
+      "on": true,
+      "style": "gradient",
+      "color1": "#FFD166",
+      "color2": "#FF8FAB",
+      "padding": 0.06,
+      "radius": 28,
+      "shadow": 0.6
+    },
+    "transitions": {
+      "on": true,
+      "style": "slide",
+      "duration": 0.45
+    },
+    "outro": {
+      "on": true,
+      "style": "solid",
+      "hold": 2,
+      "lead": 0
+    }
+  }
+}

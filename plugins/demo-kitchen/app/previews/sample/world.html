@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Sample world for the menu previews</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #EEF0F4; font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased; color: #14161B; }
+  #world { position: absolute; left: 0; top: 0; }
+  .screen { position: absolute; width: 1280px; height: 800px; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 20px 50px rgba(20,30,60,.10); }
+  .nav { height: 64px; display: flex; align-items: center; padding: 0 32px; gap: 10px; border-bottom: 1px solid #EEF0F3; font-weight: 700; font-size: 20px; }
+  .logo { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+  /* sign up */
+  #A .hero { display: grid; grid-template-columns: 1fr 1fr; height: 736px; }
+  #A .pitch { padding: 120px 56px 0 64px; }
+  #A h1 { font-size: 54px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; }
+  #A h1 span { color: #6C5CE7; }
+  #A .pitch p { margin-top: 20px; font-size: 19px; color: #5B6170; line-height: 1.5; max-width: 440px; }
+  #A .side { background: #F6F5FF; display: flex; align-items: center; justify-content: center; }
+  .card { width: 420px; background: #fff; border-radius: 18px; padding: 34px; box-shadow: 0 10px 40px rgba(60,50,140,.12); }
+  .card h2 { font-size: 24px; letter-spacing: -0.02em; }
+  .card .sub { color: #7A8090; font-size: 15px; margin-top: 6px; }
+  .field { margin-top: 26px; height: 54px; border: 1.5px solid #DADDE5; border-radius: 12px; display: flex; align-items: center; padding: 0 16px; font-size: 17px; color: #14161B; }
+  .field .ph { color: #A3A8B4; }
+  .btn { margin-top: 14px; height: 54px; border-radius: 12px; background: #6C5CE7; color: #fff; font-weight: 600; font-size: 17px; display: flex; align-items: center; justify-content: center; }
+  .fine { margin-top: 16px; text-align: center; color: #A3A8B4; font-size: 13px; }
+  /* dashboard */
+  #B .body { display: grid; grid-template-columns: 220px 1fr; height: 736px; }
+  #B .side { border-right: 1px solid #EEF0F3; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px; }
+  #B .side div { padding: 10px 12px; border-radius: 10px; color: #7A8090; font-weight: 500; font-size: 15px; }
+  #B .side .on { background: #F1EFFF; color: #6C5CE7; font-weight: 600; }
+  #B .main { padding: 32px 40px; }
+  #B h2 { font-size: 30px; letter-spacing: -0.02em; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+  .stat { border: 1px solid #EEF0F3; border-radius: 16px; padding: 22px; }
+  .stat .k { color: #7A8090; font-size: 14px; font-weight: 500; }
+  .stat .v { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin-top: 6px; }
+  .stat .d { color: #12A46B; font-size: 13px; font-weight: 600; margin-top: 4px; }
+  .chart { margin-top: 22px; border: 1px solid #EEF0F3; border-radius: 16px; height: 330px; padding: 24px; display: flex; align-items: flex-end; gap: 16px; }
+  .chart i { flex: 1; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, #A29BFE, #6C5CE7); display: block; }
+</style>
+</head>
+<body>
+<div id="world">
+  <div class="screen" id="A" style="left:0;top:0">
+    <div class="nav"><div class="logo"></div>Pocket</div>
+    <div class="hero">
+      <div class="pitch"><h1>Money that <span>plans itself</span>.</h1><p>Pocket sorts every payment, spots what's coming and tells you what's safe to spend.</p></div>
+      <div class="side">
+        <div class="card">
+          <h2>Create your account</h2>
+          <div class="sub">Free for 30 days. No card needed.</div>
+          <div class="field" id="email"><span data-type="1.25">maya@pocket.app</span></div>
+          <div class="btn" id="join">Get started</div>
+          <div class="fine">By continuing you agree to our terms.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen" id="B" style="left:1400px;top:0">
+    <div class="nav"><div class="logo"></div>Pocket</div>
+    <div class="body">
+      <div class="side"><div class="on">Overview</div><div>Payments</div><div>Goals</div><div>Settings</div></div>
+      <div class="main">
+        <h2 data-in="3.3">Good morning, Maya</h2>
+        <div class="stats">
+          <div class="stat" data-in="3.45"><div class="k">Safe to spend</div><div class="v">$1,240</div><div class="d">+12% vs last month</div></div>
+          <div class="stat" id="goal" data-in="3.55"><div class="k">Holiday goal</div><div class="v">68%</div><div class="d">On track for June</div></div>
+          <div class="stat" data-in="3.65"><div class="k">Bills this week</div><div class="v">$312</div><div class="d">3 upcoming</div></div>
+        </div>
+        <div class="chart" data-in="3.75">
+          <i style="height:38%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:66%"></i><i style="height:58%"></i><i style="height:74%"></i><i style="height:62%"></i><i style="height:86%"></i><i style="height:70%"></i><i style="height:92%"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

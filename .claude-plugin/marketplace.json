@@ -1,0 +1,14 @@
+{
+  "name": "demo-kitchen-tools",
+  "description": "Make polished product demo videos of anything you built with Claude Code",
+  "owner": {
+    "name": "Xinran Ma"
+  },
+  "plugins": [
+    {
+      "name": "demo-kitchen",
+      "source": "./plugins/demo-kitchen",
+      "description": "Run /demo-video in your project: Claude storyboards a demo, then you pick effects from a menu, tune them with sliders, preview live and export MP4 or GIF."
+    }
+  ]
+}

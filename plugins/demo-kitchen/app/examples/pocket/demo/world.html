@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Pocket (sample)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #EEF0F4; font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased; color: #14161B; }
+  #world { position: absolute; left: 0; top: 0; }
+  .screen { position: absolute; width: 1280px; height: 800px; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 20px 50px rgba(20,30,60,.10); }
+  .nav { height: 64px; display: flex; align-items: center; padding: 0 32px; gap: 10px; border-bottom: 1px solid #EEF0F3; font-weight: 700; font-size: 20px; }
+  .logo { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+  /* sign up */
+  #A .hero { display: grid; grid-template-columns: 1fr 1fr; height: 736px; }
+  #A .pitch { padding: 120px 56px 0 64px; }
+  #A h1 { font-size: 54px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; }
+  #A h1 span { color: #6C5CE7; }
+  #A .pitch p { margin-top: 20px; font-size: 19px; color: #5B6170; line-height: 1.5; max-width: 440px; }
+  #A .side { background: #F6F5FF; display: flex; align-items: center; justify-content: center; }
+  .card { width: 420px; background: #fff; border-radius: 18px; padding: 34px; box-shadow: 0 10px 40px rgba(60,50,140,.12); }
+  .card h2 { font-size: 24px; letter-spacing: -0.02em; }
+  .card .sub { color: #7A8090; font-size: 15px; margin-top: 6px; }
+  .field { margin-top: 26px; height: 54px; border: 1.5px solid #DADDE5; border-radius: 12px; display: flex; align-items: center; padding: 0 16px; font-size: 17px; color: #14161B; }
+  .field .ph { color: #A3A8B4; }
+  .btn { margin-top: 14px; height: 54px; border-radius: 12px; background: #6C5CE7; color: #fff; font-weight: 600; font-size: 17px; display: flex; align-items: center; justify-content: center; }
+  .fine { margin-top: 16px; text-align: center; color: #A3A8B4; font-size: 13px; }
+  /* dashboard */
+  #B .body { display: grid; grid-template-columns: 220px 1fr; height: 736px; }
+  #B .side { border-right: 1px solid #EEF0F3; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px; }
+  #B .side div { padding: 10px 12px; border-radius: 10px; color: #7A8090; font-weight: 500; font-size: 15px; }
+  #B .side .on { background: #F1EFFF; color: #6C5CE7; font-weight: 600; }
+  #B .main { padding: 32px 40px; }
+  #B h2 { font-size: 30px; letter-spacing: -0.02em; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+  .stat { border: 1px solid #EEF0F3; border-radius: 16px; padding: 22px; }
+  .stat .k { color: #7A8090; font-size: 14px; font-weight: 500; }
+  .stat .v { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin-top: 6px; }
+  .stat .d { color: #12A46B; font-size: 13px; font-weight: 600; margin-top: 4px; }
+  .chart { margin-top: 22px; border: 1px solid #EEF0F3; border-radius: 16px; height: 330px; padding: 24px; display: flex; align-items: flex-end; gap: 16px; }
+  .chart i { flex: 1; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, #A29BFE, #6C5CE7); display: block; }
+
+  .nav .grow { flex: 1; }
+  .nav .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #FFB199, #FF7A90); }
+  .app { display: grid; grid-template-columns: 220px 1fr; height: 736px; }
+  .app .side { border-right: 1px solid #EEF0F3; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .app .side div { padding: 10px 12px; border-radius: 10px; color: #7A8090; font-weight: 500; font-size: 15px; }
+  .app .side .on { background: #F1EFFF; color: #6C5CE7; font-weight: 600; }
+  .app .main { padding: 32px 40px; position: relative; }
+  .app h2 { font-size: 30px; letter-spacing: -0.02em; }
+  .head { display: flex; align-items: center; justify-content: space-between; }
+  .pbtn { height: 44px; padding: 0 18px; border-radius: 11px; background: #6C5CE7; color: #fff; font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; }
+  .pbtn b { font-size: 20px; font-weight: 500; line-height: 1; }
+  /* new goal */
+  .form { margin-top: 26px; width: 620px; border: 1px solid #EEF0F3; border-radius: 18px; padding: 30px; }
+  .lab { font-size: 14px; font-weight: 600; color: #5B6170; margin-top: 22px; }
+  .lab:first-child { margin-top: 0; }
+  .form .field { margin-top: 10px; }
+  .chips { display: flex; gap: 10px; margin-top: 10px; }
+  .chipx { height: 48px; padding: 0 20px; border-radius: 12px; border: 1.5px solid #DADDE5; display: flex; align-items: center; font-weight: 600; font-size: 16px; color: #3A3F4B; }
+  .chipx.sel { border-color: #6C5CE7; background: #F1EFFF; color: #6C5CE7; box-shadow: 0 0 0 3px rgba(108,92,231,.14); }
+  .form .btn { margin-top: 28px; transition: none; }
+  .form .btn.done { background: #12A46B; }
+  .emoji { font-size: 34px; margin-bottom: 10px; }
+  .aside { position: absolute; left: 700px; top: 104px; width: 300px; border-radius: 18px; background: #F6F5FF; padding: 26px; }
+  .aside .k { color: #7A8090; font-size: 14px; font-weight: 500; }
+  .aside .v { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin-top: 6px; }
+  .aside p { margin-top: 12px; font-size: 14px; color: #5B6170; line-height: 1.5; }
+  /* goals */
+  .goals { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+  .g { border: 1px solid #EEF0F3; border-radius: 16px; padding: 22px; background: #fff; }
+  .g .t { display: flex; justify-content: space-between; font-weight: 600; font-size: 17px; }
+  .g .t span { color: #7A8090; font-weight: 500; font-size: 15px; }
+  .g .amt { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-top: 10px; }
+  .g .amt small { font-size: 15px; color: #7A8090; font-weight: 500; }
+  .bar { height: 10px; border-radius: 5px; background: #EEF0F3; margin-top: 14px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; border-radius: 5px; background: linear-gradient(90deg, #A29BFE, #6C5CE7); }
+  .g.new { border-color: #6C5CE7; box-shadow: 0 0 0 4px rgba(108,92,231,.12), 0 12px 30px rgba(60,50,140,.10); }
+  .auto { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid #EEF0F3; font-size: 15px; font-weight: 500; color: #3A3F4B; }
+  .tg { width: 46px; height: 26px; border-radius: 13px; background: #D4D7DF; position: relative; }
+  .tg::after { content: ""; position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); transform: translateX(var(--x, 0px)); }
+  .tg.on { background: #6C5CE7; }
+  .ok { color: #12A46B; font-size: 13px; font-weight: 600; margin-top: 8px; }
+  .toast { position: absolute; right: 40px; bottom: 36px; background: #14161B; color: #fff; border-radius: 12px; padding: 14px 18px; font-size: 15px; font-weight: 500; display: flex; gap: 10px; align-items: center; box-shadow: 0 12px 30px rgba(0,0,0,.2); }
+  .toast i { width: 20px; height: 20px; border-radius: 50%; background: #12A46B; display: inline-flex; align-items: center; justify-content: center; font-style: normal; font-size: 12px; }
+</style>
+</head>
+<body>
+<div id="world">
+  <!-- 1. Sign up -->
+  <div class="screen" id="A" style="left:0;top:0">
+    <div class="nav"><div class="logo"></div>Pocket</div>
+    <div class="hero">
+      <div class="pitch"><h1>Money that <span>plans itself</span>.</h1><p>Pocket sorts every payment, spots what's coming and tells you what's safe to spend.</p></div>
+      <div class="side">
+        <div class="card">
+          <h2>Create your account</h2>
+          <div class="sub">Free for 30 days. No card needed.</div>
+          <div class="field" id="email"><span data-type="1.25">maya@pocket.app</span></div>
+          <div class="btn" id="join">Get started</div>
+          <div class="fine">By continuing you agree to our terms.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Dashboard -->
+  <div class="screen" id="B" style="left:1400px;top:0">
+    <div class="nav"><div class="logo"></div>Pocket<div class="grow"></div><div class="avatar"></div></div>
+    <div class="app">
+      <div class="side"><div class="on">Overview</div><div class="">Payments</div><div class="">Goals</div><div class="">Settings</div></div>
+      <div class="main">
+        <div class="head"><h2 data-in="3.3">Good morning, Maya</h2><div data-in="3.4"><div class="pbtn" id="newgoal"><b>+</b> New goal</div></div></div>
+        <div class="stats">
+          <div class="stat" data-in="3.45"><div class="k">Safe to spend</div><div class="v">$1,240</div><div class="d">+12% vs last month</div></div>
+          <div class="stat" data-in="3.55"><div class="k">Holiday goal</div><div class="v">68%</div><div class="d">On track for June</div></div>
+          <div class="stat" data-in="3.65"><div class="k">Bills this week</div><div class="v">$312</div><div class="d">3 upcoming</div></div>
+        </div>
+        <div class="chart" data-in="3.75">
+          <i style="height:38%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:66%"></i><i style="height:58%"></i><i style="height:74%"></i><i style="height:62%"></i><i style="height:86%"></i><i style="height:70%"></i><i style="height:92%"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. New goal -->
+  <div class="screen" id="C" style="left:1400px;top:920px">
+    <div class="nav"><div class="logo"></div>Pocket<div class="grow"></div><div class="avatar"></div></div>
+    <div class="app">
+      <div class="side"><div class="">Overview</div><div class="">Payments</div><div class="on">Goals</div><div class="">Settings</div></div>
+      <div class="main">
+        <h2>New goal</h2>
+        <div class="form">
+          <div class="lab">What are you saving for?</div>
+          <div class="field" id="gname"><span data-type="7.05">Trip to Lisbon</span></div>
+          <div class="lab">Target</div>
+          <div class="chips"><div class="chipx">$500</div><div class="chipx">$1,000</div><div class="chipx" id="c2000">$2,000</div><div class="chipx">$5,000</div></div>
+          <div class="lab">By when</div>
+          <div class="chips"><div class="chipx">March</div><div class="chipx sel">May</div><div class="chipx">August</div></div>
+          <div class="btn" id="create">Create goal</div>
+        </div>
+        <div class="aside"><div class="k">You'd save</div><div class="v" id="perweek">$0 / week</div><p>Pocket moves it for you every Friday, only when you're ahead on bills.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Goals -->
+  <div class="screen" id="D" style="left:0;top:920px">
+    <div class="nav"><div class="logo"></div>Pocket<div class="grow"></div><div class="avatar"></div></div>
+    <div class="app">
+      <div class="side"><div class="">Overview</div><div class="">Payments</div><div class="on">Goals</div><div class="">Settings</div></div>
+      <div class="main">
+        <h2>Your goals</h2>
+        <div class="goals">
+          <div data-in="11.05" data-fx="left" data-dx="-30"><div class="g new" id="lisbon">
+            <div class="t">Trip to Lisbon <span>by May</span></div>
+            <div class="amt">$0 <small>of $2,000</small></div>
+            <div class="bar"><i data-to="0.04" data-from="11.6"></i></div>
+            <div class="auto">Auto-save $50 / week <div class="tg" id="auto"></div></div>
+            <div class="ok" data-in="12.9">On track for May</div>
+          </div></div>
+          <div class="g"><div class="t">Holiday in Japan <span>by June</span></div><div class="amt">$2,720 <small>of $4,000</small></div><div class="bar"><i data-to="0.68" data-from="11.0"></i></div></div>
+          <div class="g"><div class="t">Emergency fund <span>ongoing</span></div><div class="amt">$4,200 <small>of $10,000</small></div><div class="bar"><i data-to="0.42" data-from="11.15"></i></div></div>
+          <div class="g"><div class="t">New laptop <span>by October</span></div><div class="amt">$640 <small>of $1,800</small></div><div class="bar"><i data-to="0.36" data-from="11.3"></i></div></div>
+        </div>
+        <div class="toast" data-in="11.4" data-out="14.0"><i>✓</i>Goal created</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Times match storyboard.json clicks. Pure functions of t, so scrubbing works.
+  const CHIP = 8.75, CREATE = 9.75, TOGGLE = 12.65;
+  const ease = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
+  const $ = (s) => document.querySelector(s);
+  window.scene = {
+    ready: document.fonts.ready,
+    update(t) {
+      $('#c2000').classList.toggle('sel', t >= CHIP);
+      $('#perweek').textContent = t >= CHIP ? '$50 / week' : '$0 / week';
+      const done = t >= CREATE;
+      $('#create').classList.toggle('done', done);
+      $('#create').textContent = done ? '✓  Goal created' : 'Create goal';
+      for (const i of document.querySelectorAll('.bar i')) i.style.width = (100 * +i.dataset.to * ease((t - +i.dataset.from) / 0.9)).toFixed(2) + '%';
+      const k = ease((t - TOGGLE) / 0.2);
+      $('#auto').classList.toggle('on', k > 0.5);
+      $('#auto').style.setProperty('--x', (20 * k).toFixed(1) + 'px');
+    },
+  };
+</script>
+</body>
+</html>

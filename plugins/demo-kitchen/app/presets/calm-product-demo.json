@@ -1,0 +1,51 @@
+{
+  "name": "Calm",
+  "description": "Unhurried glides, a big cursor, clean captions.",
+  "resetOthers": true,
+  "pace": 1,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 1,
+      "zoom": 1
+    },
+    "cursor": {
+      "on": true,
+      "style": "arrow",
+      "size": 64,
+      "shadow": 0.6,
+      "smoothness": 1
+    },
+    "ripple": {
+      "on": true,
+      "size": 46,
+      "thickness": 4,
+      "duration": 0.5,
+      "color": "#0D99FF"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.14,
+      "ring": false
+    },
+    "typing": {
+      "on": true,
+      "cps": 16,
+      "caret": true
+    },
+    "captions": {
+      "on": true,
+      "style": "headline",
+      "position": "top",
+      "size": 38,
+      "color": "auto",
+      "fade": 0.4
+    },
+    "outro": {
+      "on": true,
+      "style": "center",
+      "hold": 2.5,
+      "lead": 0
+    }
+  }
+}

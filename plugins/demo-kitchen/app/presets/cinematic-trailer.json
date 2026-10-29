@@ -1,0 +1,82 @@
+{
+  "name": "Cinematic",
+  "description": "Title card, letterbox, zoom-through cuts, motion blur.",
+  "resetOthers": true,
+  "pace": 0.95,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 1.5,
+      "zoom": 1.05
+    },
+    "cursor": {
+      "on": true,
+      "style": "arrow",
+      "size": 58,
+      "shadow": 0.6,
+      "smoothness": 1.3
+    },
+    "naturalMotion": {
+      "on": true,
+      "arc": 0.1,
+      "overshoot": 0.2
+    },
+    "ripple": {
+      "on": true,
+      "size": 52,
+      "thickness": 3,
+      "duration": 0.6,
+      "color": "#FFFFFF"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.12,
+      "ring": false
+    },
+    "typing": {
+      "on": true,
+      "cps": 14,
+      "caret": true
+    },
+    "captions": {
+      "on": true,
+      "style": "lower",
+      "position": "bottom",
+      "size": 34,
+      "color": "auto",
+      "fade": 0.5
+    },
+    "cinematic": {
+      "on": true,
+      "bars": 0.085,
+      "vignette": 0.4,
+      "animate": true
+    },
+    "transitions": {
+      "on": true,
+      "style": "zoom",
+      "duration": 0.6
+    },
+    "motionBlur": {
+      "on": true,
+      "samples": 4
+    },
+    "intro": {
+      "on": true,
+      "duration": 2.2,
+      "theme": "dark"
+    },
+    "outro": {
+      "on": true,
+      "style": "center",
+      "hold": 2.5,
+      "lead": 0.3
+    },
+    "fades": {
+      "on": true,
+      "color": "#000000",
+      "in": 0.6,
+      "out": 0.8
+    }
+  }
+}

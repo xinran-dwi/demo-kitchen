@@ -1,0 +1,445 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Desktop Version — demo world</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #FBF8F1; --green: #1F4D3A; --sage: #9CC5A1; --terra: #E07A5F; --ink: #1C2B24; --gray: #6B7A72; --line: #ECE6DA;
+    --blue: #0D99FF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F3F3F1; font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased; }
+  #stage { position: absolute; inset: 0; overflow: hidden; background-color: #F3F3F1;
+    }  /* dot grid removed for a cleaner GIF */
+  #world { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .frame { position: absolute; overflow: hidden; background: var(--cream); box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 8px 30px rgba(0,0,0,.06); }
+  .mob { width: 402px; height: 874px; border-radius: 0; }
+  .desk { width: 1728px; height: 1117px; }
+  .row { display: flex; align-items: center; }
+  .col { display: flex; flex-direction: column; }
+
+  /* status bar */
+  .sb { height: 54px; padding: 18px 28px 0 32px; display: flex; justify-content: space-between; align-items: center; font: 600 16px Inter; color: var(--ink); }
+
+  /* mobile welcome */
+  .mw-art { padding-top: 28px; display: flex; justify-content: center; }
+  .mw-text { padding: 20px 32px 0; text-align: center; }
+  .h-welcome { font-weight: 700; color: var(--green); letter-spacing: -0.02em; line-height: 1.12; }
+  .p-welcome { color: var(--gray); line-height: 1.45; }
+  .btn { display: flex; align-items: center; justify-content: center; background: var(--green); color: #fff; font-weight: 600; border-radius: 28px; }
+  .link { color: var(--green); font-weight: 500; text-align: center; }
+
+  /* home bits */
+  .logo { display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--green); letter-spacing: -0.03em; }
+  .avatar { border-radius: 50%; background: #F2C9B8; display: flex; align-items: center; justify-content: center; color: #8A4B36; font-weight: 600; }
+  .search { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid #E8E2D6; border-radius: 14px; color: #9AA59F; }
+  .care { background: var(--green); color: #fff; border-radius: 22px; }
+  .care .sub { color: #CFE3D5; }
+  .water { background: var(--terra); color: #fff; font-weight: 600; border-radius: 22px; display: inline-flex; align-items: center; justify-content: center; }
+  .sec-head { display: flex; justify-content: space-between; align-items: center; }
+  .sec-head b { font-weight: 600; color: var(--ink); }
+  .sec-head span { color: var(--green); font-weight: 500; }
+  .cards { display: flex; }
+  .card .photo { border-radius: 18px; display: flex; align-items: center; justify-content: center; }
+  .card .nm { font-weight: 600; color: var(--ink); }
+  .card .st { color: var(--gray); }
+  .card .st.due { color: var(--terra); }
+  .tabbar { position: absolute; left: 0; bottom: 0; width: 402px; height: 88px; background: #fff; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; padding: 12px 36px 0; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 4px; font: 500 12px Inter; color: #9AA59F; }
+  .tab.on { color: var(--green); font-weight: 600; }
+  .side { position: absolute; left: 0; top: 0; width: 248px; height: 1117px; background: #fff; border-right: 1px solid var(--line); padding: 32px 20px; }
+  .nav { margin-top: 32px; display: flex; flex-direction: column; gap: 4px; }
+  .nav .it { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font: 500 15px Inter; color: #9AA59F; }
+  .nav .it.on { background: rgba(31,77,58,.1); color: var(--green); font-weight: 600; }
+
+  /* detail */
+  .iconbtn { width: 40px; height: 40px; border-radius: 20px; background: rgba(255,255,255,.9); display: flex; align-items: center; justify-content: center; }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 7px; height: 7px; border-radius: 4px; background: rgba(31,77,58,.25); display: block; }
+  .dots i.on { width: 20px; background: var(--green); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 16px; background: #EEF3EC; color: var(--green); font-weight: 500; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .care-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); color: var(--ink); }
+  .care-row span { color: var(--gray); }
+  .arrow { position: absolute; width: 56px; height: 56px; border-radius: 28px; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; }
+  .thumb { width: 84px; height: 84px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .thumb.on { outline: 3px solid var(--green); outline-offset: 2px; }
+  /* popup */
+  .band { background: var(--green); color: #fff; position: relative; }
+  .band .sb { color: #fff; }
+  .band .tag { display: inline-block; padding: 4px 10px; border-radius: 12px; background: rgba(255,255,255,.16); font-weight: 600; }
+  .benefit { display: flex; align-items: center; gap: 12px; color: var(--ink); font-weight: 500; }
+  .check { width: 26px; height: 26px; border-radius: 13px; background: #E4EFE2; display: flex; align-items: center; justify-content: center; flex: none; }
+  .plan { border: 1.5px solid #E2DCCF; border-radius: 16px; background: #fff; display: flex; justify-content: space-between; align-items: center; }
+  .plan.on { border: 2px solid var(--green); background: #F3F7F1; }
+  .plan .radio { width: 20px; height: 20px; border-radius: 10px; border: 2px solid #C9C2B3; flex: none; }
+  .plan.on .radio { border: 6px solid var(--green); }
+  .save { background: var(--terra); color: #fff; font-weight: 600; border-radius: 10px; padding: 2px 8px; }
+
+  /* screen-space overlays */
+  .label { position: absolute; font: 500 17px Inter; color: #8C8C8C; white-space: nowrap; transform: translateY(-100%); padding-bottom: 8px; }
+  .label.sel { color: var(--blue); }
+  #sel { position: absolute; border: 2.5px solid var(--blue); pointer-events: none; }
+
+  /* plugin window (real panel styles) */
+  #win { position: absolute; left: 48px; top: 176px; width: 320px; transform: scale(1.4); transform-origin: 0 0;
+    background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,.08), 0 18px 48px rgba(0,0,0,.14); overflow: hidden; color: #1e1e1e; }
+  .titlebar { height: 41px; border-bottom: 1px solid #E6E6E6; display: flex; align-items: center; gap: 8px; padding: 0 12px; font: 500 12px Inter; }
+  .titlebar .x { margin-left: auto; color: #555; font-size: 16px; }
+  .wbody { padding: 16px; font: 12px/1.45 Inter; }
+  .pcard { padding: 14px; border-radius: 10px; background: #F5F5F5; min-height: 66px; display: flex; align-items: center; }
+  .pcard .lab { font-size: 11px; color: #757575; }
+  .pcard .nm { font-weight: 600; font-size: 13px; }
+  .pbtn { width: 100%; height: 40px; margin-top: 12px; border-radius: 8px; background: #0D99FF; color: #fff; font: 600 13px Inter; display: flex; align-items: center; justify-content: center; }
+  .pbtn.off { opacity: .45; }
+  .pbtn.down { background: #0A7FD6; transform: scale(.98); }
+  .prog { margin-top: 8px; min-height: 16px; font-size: 11px; color: #757575; text-align: center; }
+  .pdone { margin-top: 6px; padding: 12px; border-radius: 10px; background: #E8F8EF; font-weight: 500; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="world">
+
+    <!-- A. mobile welcome -->
+    <div class="frame mob" id="mA" style="left:0;top:0">
+      <div class="sb">9:41 <svg width="66" height="13" viewBox="0 0 66 13"><rect x="0" y="7" width="3" height="5" rx="1" fill="#1C2B24"/><rect x="5" y="5" width="3" height="7" rx="1" fill="#1C2B24"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#1C2B24"/><rect x="15" y="1" width="3" height="11" rx="1" fill="#1C2B24"/><path d="M28 5a9 9 0 0 1 12 0M30.5 7.5a5.5 5.5 0 0 1 7 0" stroke="#1C2B24" stroke-width="1.6" fill="none" stroke-linecap="round"/><rect x="44.5" y="1.5" width="19" height="10" rx="3" stroke="#1C2B24" fill="none" opacity=".5"/><rect x="46.5" y="3.5" width="14" height="6" rx="1.5" fill="#1C2B24"/></svg></div>
+      <div class="mw-art"><svg class="plant-big" width="320" height="320" viewBox="0 0 320 320"></svg></div>
+      <div class="mw-text">
+        <div class="h-welcome" style="font-size:34px">Grow happier plants</div>
+        <div class="p-welcome" style="font-size:16px;margin-top:12px">Watering reminders, light tips and a care plan for every plant you own.</div>
+      </div>
+      <div style="position:absolute;left:32px;right:32px;bottom:44px">
+        <div class="btn" style="height:56px;font-size:17px">Get started</div>
+        <div class="link" style="font-size:15px;margin-top:18px">I already have an account</div>
+      </div>
+    </div>
+
+    <!-- A. desktop welcome -->
+    <div class="frame desk" id="dA" style="left:482px;top:0">
+      <div class="rv" data-d="0.15" data-x="-24" style="position:absolute;left:0;top:0;width:864px;height:1117px;background:#ECEDE5;display:flex;align-items:center;justify-content:center">
+        <svg class="plant-big" width="648" height="648" viewBox="0 0 320 320"></svg>
+      </div>
+      <div style="position:absolute;left:1076px;top:0;width:440px;height:1117px;display:flex;flex-direction:column;justify-content:center">
+        <div class="rv h-welcome" data-d="0.55" style="font-size:52px">Grow happier plants</div>
+        <div class="rv p-welcome" data-d="0.7" style="font-size:19px;margin-top:20px">Watering reminders, light tips and a care plan for every plant you own.</div>
+        <div class="rv" data-d="0.85" style="width:360px;margin-top:36px">
+          <div class="btn" style="height:58px;font-size:18px">Get started</div>
+          <div class="link" style="font-size:16px;margin-top:18px">I already have an account</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B. mobile home -->
+    <div class="frame mob" id="mB" style="left:3250px;top:0">
+      <div class="sb">9:41 <svg width="66" height="13" viewBox="0 0 66 13"><rect x="0" y="7" width="3" height="5" rx="1" fill="#1C2B24"/><rect x="5" y="5" width="3" height="7" rx="1" fill="#1C2B24"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#1C2B24"/><rect x="15" y="1" width="3" height="11" rx="1" fill="#1C2B24"/><path d="M28 5a9 9 0 0 1 12 0M30.5 7.5a5.5 5.5 0 0 1 7 0" stroke="#1C2B24" stroke-width="1.6" fill="none" stroke-linecap="round"/><rect x="44.5" y="1.5" width="19" height="10" rx="3" stroke="#1C2B24" fill="none" opacity=".5"/><rect x="46.5" y="3.5" width="14" height="6" rx="1.5" fill="#1C2B24"/></svg></div>
+      <div class="col" style="padding:12px 20px 0;gap:22px">
+        <div class="logo" style="font-size:19px"><svg class="mark" width="22" height="22" viewBox="0 0 22 22"></svg>bloom</div>
+        <div class="row" style="justify-content:space-between">
+          <div><div style="font-size:15px;color:var(--gray)">Good morning,</div><div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;color:var(--ink)">Maya</div></div>
+          <div class="avatar" style="width:44px;height:44px;font-size:16px">M</div>
+        </div>
+        <div class="search" style="height:48px;padding:0 16px;font-size:15px"><svg class="sicon" width="18" height="18" viewBox="0 0 18 18"></svg>Search plants</div>
+        <div class="care" style="padding:20px">
+          <div style="font-size:19px;font-weight:600">3 plants need water today</div>
+          <div class="sub" style="font-size:14px;margin-top:6px">Monstera, Fern and Pilea are getting thirsty.</div>
+          <div class="water" style="height:40px;padding:0 18px;font-size:14px;margin-top:14px">Water now</div>
+        </div>
+        <div class="col" style="gap:12px">
+          <div class="sec-head"><b style="font-size:18px">My plants</b><span style="font-size:14px">See all</span></div>
+          <div class="cards plants" data-w="150" data-h="150" data-art="80" data-fs="15" data-ss="13" style="gap:12px"></div>
+        </div>
+        <div class="col" style="gap:12px">
+          <div class="sec-head"><b style="font-size:18px">Shop picks</b><span style="font-size:14px">See all</span></div>
+          <div class="cards shop" data-w="170" data-h="120" data-art="80" data-fs="15" data-ss="13" style="gap:12px"></div>
+        </div>
+      </div>
+      <div class="tabbar"></div>
+    </div>
+
+    <!-- B. desktop home -->
+    <div class="frame desk" id="dB" style="left:3732px;top:0">
+      <div class="side rv" data-d="0.1" data-x="-30">
+        <div class="logo" style="font-size:19px"><svg class="mark" width="22" height="22" viewBox="0 0 22 22"></svg>bloom</div>
+        <div class="nav"></div>
+      </div>
+      <div class="col" style="position:absolute;left:388px;top:48px;width:1200px;gap:32px">
+        <div class="row rv" data-d="0.35" style="justify-content:space-between">
+          <div><div style="font-size:16px;color:var(--gray)">Good morning,</div><div style="font-size:32px;font-weight:700;letter-spacing:-0.02em;color:var(--ink)">Maya</div></div>
+          <div class="row" style="gap:16px">
+            <div class="search" style="width:420px;height:48px;padding:0 16px;font-size:15px"><svg class="sicon" width="18" height="18" viewBox="0 0 18 18"></svg>Search plants</div>
+            <div class="avatar" style="width:44px;height:44px;font-size:16px">M</div>
+          </div>
+        </div>
+        <div class="care row rv" data-d="0.5" style="padding:28px 32px;justify-content:space-between">
+          <div><div style="font-size:22px;font-weight:600">3 plants need water today</div><div class="sub" style="font-size:15px;margin-top:6px">Monstera, Fern and Pilea are getting thirsty.</div></div>
+          <div class="water" style="height:44px;padding:0 24px;font-size:15px">Water now</div>
+        </div>
+        <div class="col" style="gap:16px">
+          <div class="sec-head rv" data-d="0.65"><b style="font-size:22px">My plants</b><span style="font-size:15px">See all</span></div>
+          <div class="cards plants" data-w="282" data-h="282" data-art="100" data-fs="16" data-ss="14" data-rv="0.75" style="gap:24px"></div>
+        </div>
+        <div class="col" style="gap:16px">
+          <div class="sec-head rv" data-d="1.05"><b style="font-size:22px">Shop picks</b><span style="font-size:15px">See all</span></div>
+          <div class="cards shop" data-w="282" data-h="199" data-art="100" data-fs="16" data-ss="14" data-rv="1.15" style="gap:24px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C. mobile detail -->
+    <div class="frame mob" id="mC" style="left:6500px;top:0">
+      <div style="position:absolute;left:0;top:0;width:402px;height:470px;background:linear-gradient(180deg,#DCEBD9,#B9D8BE);display:flex;align-items:center;justify-content:center">
+        <svg class="plant-photo" width="300" height="300" viewBox="0 0 80 80"></svg>
+      </div>
+      <div style="position:relative"><div class="sb">9:41 <svg width="66" height="13" viewBox="0 0 66 13"><rect x="0" y="7" width="3" height="5" rx="1" fill="#1C2B24"/><rect x="5" y="5" width="3" height="7" rx="1" fill="#1C2B24"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#1C2B24"/><rect x="15" y="1" width="3" height="11" rx="1" fill="#1C2B24"/><path d="M28 5a9 9 0 0 1 12 0M30.5 7.5a5.5 5.5 0 0 1 7 0" stroke="#1C2B24" stroke-width="1.6" fill="none" stroke-linecap="round"/><rect x="44.5" y="1.5" width="19" height="10" rx="3" stroke="#1C2B24" fill="none" opacity=".5"/><rect x="46.5" y="3.5" width="14" height="6" rx="1.5" fill="#1C2B24"/></svg></div></div>
+      <div class="row" style="position:absolute;left:20px;right:20px;top:62px;justify-content:space-between"><span class="iconbtn"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="#1C2B24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="iconbtn"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" stroke="#1C2B24" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg></span></div>
+      <div class="dots" style="position:absolute;left:0;right:0;top:440px;justify-content:center"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+      <div style="position:absolute;left:24px;right:24px;top:494px">
+        <div style="font-size:28px;font-weight:700;letter-spacing:-0.02em;color:var(--ink)">Monstera</div>
+        <div style="font-size:15px;color:var(--gray);font-style:italic;margin-top:2px">Monstera deliciosa</div>
+        <div style="margin-top:16px"><div class="chips" style="font-size:13px"><span class="chip">Water every 7 days</span><span class="chip">Bright, indirect light</span><span class="chip">18–24°C</span></div></div>
+        <div style="font-size:15px;line-height:1.5;color:var(--gray);margin-top:16px">A fast-growing climber with big, split leaves. Let the top few centimetres of soil dry out between waterings.</div>
+      </div>
+      <div class="btn" style="position:absolute;left:24px;right:24px;bottom:40px;height:56px;font-size:17px">Water now</div>
+    </div>
+
+    <!-- C. desktop detail -->
+    <div class="frame desk" id="dC" style="left:6982px;top:0">
+      <div style="position:absolute;left:0;top:0;width:1128px;height:1117px;background:#16241D"></div>
+      <div class="rv" data-d="0.15" style="position:absolute;left:262px;top:240px;width:604px;height:602px;border-radius:20px;background:linear-gradient(180deg,#DCEBD9,#B9D8BE);display:flex;align-items:center;justify-content:center">
+        <svg class="plant-photo" width="440" height="440" viewBox="0 0 80 80"></svg>
+      </div>
+      <div class="arrow rv" data-d="0.3" style="left:120px;top:513px"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arrow rv" data-d="0.3" style="left:952px;top:513px"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="rv row" data-d="0.4" style="position:absolute;left:262px;top:880px;width:604px;justify-content:center;gap:14px">
+        <span class="thumb on" style="background:linear-gradient(180deg,#DCEBD9,#B9D8BE)"><svg class="plant-photo" width="60" height="60" viewBox="0 0 80 80"></svg></span>
+        <span class="thumb" style="background:linear-gradient(180deg,#F6E3D5,#EFCBB4)"><svg class="plant-photo" width="60" height="60" viewBox="0 0 80 80"></svg></span>
+        <span class="thumb" style="background:linear-gradient(180deg,#E3ECF4,#C9DAEA)"><svg class="plant-photo" width="60" height="60" viewBox="0 0 80 80"></svg></span>
+        <span class="thumb" style="background:linear-gradient(180deg,#EFE9D8,#E1D6B7)"><svg class="plant-photo" width="60" height="60" viewBox="0 0 80 80"></svg></span>
+        <span class="thumb" style="background:linear-gradient(180deg,#DCEBD9,#B9D8BE)"><svg class="plant-photo" width="60" height="60" viewBox="0 0 80 80"></svg></span>
+      </div>
+      <div style="position:absolute;left:1074px;top:32px"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div class="rv" data-d="0.1" data-x="30" style="position:absolute;left:1128px;top:0;width:600px;height:1117px;background:var(--cream);padding:72px 56px 48px;display:flex;flex-direction:column">
+        <div style="font-size:40px;font-weight:700;letter-spacing:-0.02em;color:var(--ink)">Monstera</div>
+        <div style="font-size:18px;color:var(--gray);font-style:italic;margin-top:4px">Monstera deliciosa</div>
+        <div style="margin-top:24px"><div class="chips" style="font-size:15px"><span class="chip">Water every 7 days</span><span class="chip">Bright, indirect light</span><span class="chip">18–24°C</span></div></div>
+        <div style="height:1px;background:var(--line);margin:28px 0"></div>
+        <div style="font-size:17px;line-height:1.55;color:var(--gray)">A fast-growing climber with big, split leaves. Let the top few centimetres of soil dry out between waterings.</div>
+        <div style="margin-top:24px;font-size:16px">
+          <div class="care-row">Next watering<span>in 2 days</span></div>
+          <div class="care-row">Light<span>Bright, indirect</span></div>
+          <div class="care-row">Temperature<span>18–24°C</span></div>
+        </div>
+        <div class="btn" style="margin-top:auto;height:58px;font-size:18px">Water now</div>
+      </div>
+    </div>
+
+    <!-- D. mobile popup -->
+    <div class="frame mob" id="mD" style="left:9750px;top:0">
+      <div class="band" style="height:300px;padding:0 28px">
+        <div style="position:relative"><div class="sb">9:41 <svg width="66" height="13" viewBox="0 0 66 13"><rect x="0" y="7" width="3" height="5" rx="1" fill="#ffffff"/><rect x="5" y="5" width="3" height="7" rx="1" fill="#ffffff"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#ffffff"/><rect x="15" y="1" width="3" height="11" rx="1" fill="#ffffff"/><path d="M28 5a9 9 0 0 1 12 0M30.5 7.5a5.5 5.5 0 0 1 7 0" stroke="#ffffff" stroke-width="1.6" fill="none" stroke-linecap="round"/><rect x="44.5" y="1.5" width="19" height="10" rx="3" stroke="#ffffff" fill="none" opacity=".5"/><rect x="46.5" y="3.5" width="14" height="6" rx="1.5" fill="#ffffff"/></svg></div></div>
+        <div style="position:absolute;right:22px;top:66px"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div style="position:absolute;left:28px;right:28px;top:120px">
+          <span class="tag" style="font-size:13px">Bloom Plus</span>
+          <div style="font-size:28px;font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:14px">Every plant,<br>perfectly cared for</div>
+        </div>
+      </div>
+      <div style="padding:28px 28px 0"><div class="col" style="gap:16px;font-size:16px"><div class="benefit"><span class="check"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4.5" stroke="#1F4D3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited plants</div><div class="benefit"><span class="check"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4.5" stroke="#1F4D3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Smart watering schedule</div><div class="benefit"><span class="check"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4.5" stroke="#1F4D3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Chat with a plant doctor</div></div></div>
+      <div style="padding:26px 28px 0"><div class="col" style="gap:12px;font-size:16px"><div class="plan" style="height:60px;padding:0 18px"><div class="row" style="gap:12px"><span class="radio"></span><div><b style="font-weight:600">Monthly</b></div></div><b style="font-weight:600">$4.99</b></div><div class="plan on" style="height:60px;padding:0 18px"><div class="row" style="gap:12px"><span class="radio"></span><div><b style="font-weight:600">Yearly</b> <span class="save" style="font-size:13px">Save 33%</span></div></div><b style="font-weight:600">$39.99</b></div></div></div>
+      <div style="position:absolute;left:28px;right:28px;bottom:40px">
+        <div class="btn" style="height:56px;font-size:17px">Start 7-day free trial</div>
+        <div style="text-align:center;font-size:13px;color:var(--gray);margin-top:12px">Cancel anytime</div>
+      </div>
+    </div>
+
+    <!-- D. desktop popup: dimmed desktop Home behind a centered dialog -->
+    <div class="frame desk" id="dD" style="left:10232px;top:0">
+      <div class="backdrop" style="position:absolute;inset:0"></div>
+      <div class="rv" data-d="0.05" style="position:absolute;inset:0;background:rgba(16,28,22,.55)"></div>
+      <div class="rv" data-d="0.25" style="position:absolute;left:493px;top:250px;width:742px;border-radius:24px;overflow:hidden;background:var(--cream);box-shadow:0 30px 80px rgba(0,0,0,.3)">
+        <div class="band" style="padding:40px 44px">
+          <div style="position:absolute;right:28px;top:28px"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <span class="tag" style="font-size:14px">Bloom Plus</span>
+          <div style="font-size:36px;font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:14px">Every plant, perfectly cared for</div>
+        </div>
+        <div class="row" style="padding:36px 44px 40px;gap:40px;align-items:flex-start">
+          <div style="flex:1;padding-top:6px"><div class="col" style="gap:20px;font-size:17px"><div class="benefit"><span class="check"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4.5" stroke="#1F4D3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited plants</div><div class="benefit"><span class="check"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4.5" stroke="#1F4D3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Smart watering schedule</div><div class="benefit"><span class="check"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4.5" stroke="#1F4D3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Chat with a plant doctor</div></div></div>
+          <div style="width:320px">
+            <div class="col" style="gap:12px;font-size:16px"><div class="plan" style="height:60px;padding:0 18px"><div class="row" style="gap:12px"><span class="radio"></span><div><b style="font-weight:600">Monthly</b></div></div><b style="font-weight:600">$4.99</b></div><div class="plan on" style="height:60px;padding:0 18px"><div class="row" style="gap:12px"><span class="radio"></span><div><b style="font-weight:600">Yearly</b> <span class="save" style="font-size:13px">Save 33%</span></div></div><b style="font-weight:600">$39.99</b></div></div>
+            <div class="btn" style="height:56px;font-size:17px;margin-top:20px">Start 7-day free trial</div>
+            <div style="text-align:center;font-size:13px;color:var(--gray);margin-top:12px">Cancel anytime</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- screen-space overlays -->
+  <div id="labels"></div>
+  <div id="sel"></div>
+
+  <div id="win">
+    <div class="titlebar"><svg width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" rx="3" fill="#1e1e1e"/><path d="M6 5 L3.5 8 L6 11 M10 5 L12.5 8 L10 11" stroke="#fff" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Desktop Version<span class="x">✕</span></div>
+    <div class="wbody">
+      <div class="pcard" id="pick"></div>
+      <div class="pbtn" id="go">Create desktop version</div>
+      <div class="prog" id="prog"></div>
+      <div class="pdone" id="done" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- shared art ----------
+const G = '#1F4D3A', TERRA = '#E07A5F', SAGE = '#9CC5A1';
+const PLANT_BIG = `<circle cx="160" cy="168" r="142" fill="#E1ECDD"/><circle cx="266" cy="74" r="11" fill="${TERRA}" opacity=".55"/><circle cx="56" cy="104" r="7" fill="${SAGE}"/><circle cx="252" cy="252" r="6" fill="${SAGE}"/><path d="M160 232 C160 192 158 152 160 112" stroke="${G}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M160 152 C120 142 92 110 96 74 C132 78 158 106 160 152Z" fill="#2F6B4F"/><path d="M160 130 C196 118 224 86 222 52 C186 58 162 86 160 130Z" fill="#3E8A63"/><path d="M160 192 C126 188 98 166 90 136 C124 134 152 154 160 192Z" fill="${SAGE}"/><path d="M160 178 C196 174 226 152 236 120 C200 118 170 140 160 178Z" fill="#5FA57C"/><path d="M160 112 C150 88 152 62 166 42 C178 64 174 90 160 112Z" fill="${G}"/><path d="M110 224 H210 L198 290 Q196 298 188 298 H132 Q124 298 122 290 Z" fill="${TERRA}"/><rect x="102" y="212" width="116" height="24" rx="9" fill="#C9654B"/>`;
+document.querySelectorAll('.plant-big').forEach(s => s.innerHTML = PLANT_BIG);
+document.querySelectorAll('.mark').forEach(s => s.innerHTML = `<path d="M11 20 C11 13 11 9 11 6" stroke="${G}" stroke-width="2" stroke-linecap="round"/><path d="M11 12 C6 12 3 8 3 4 C8 4 11 8 11 12Z" fill="#3E8A63"/><path d="M11 9 C15 9 19 6 19 2 C14 2 11 5 11 9Z" fill="${G}"/>`);
+document.querySelectorAll('.sicon').forEach(s => s.innerHTML = `<circle cx="8" cy="8" r="6" stroke="#6B7A72" stroke-width="1.8" fill="none"/><path d="M12.5 12.5 L16 16" stroke="#6B7A72" stroke-width="1.8" stroke-linecap="round"/>`);
+const plantSvg = (sz, a, b, c, pot = TERRA) => `<svg width="${sz}" height="${sz}" viewBox="0 0 80 80"><path d="M40 62 C40 50 40 40 40 30" stroke="${G}" stroke-width="2.5" stroke-linecap="round"/><path d="M40 46 C28 46 20 36 21 25 C32 26 40 34 40 46Z" fill="${a}"/><path d="M40 38 C51 37 59 28 58 17 C47 18 40 26 40 38Z" fill="${b}"/><path d="M40 30 C36 23 37 15 42 9 C46 16 45 24 40 30Z" fill="${c}"/><path d="M27 58 H53 L50 74 Q49 76 47 76 H33 Q31 76 30 74 Z" fill="${pot}"/></svg>`;
+const PLANTS = [
+  ['Monstera', 'Water in 2 days', false, '#DCEBD9', '#B9D8BE', ['#2F6B4F', '#3E8A63', G]],
+  ['Fern', 'Water today', true, '#F6E3D5', '#EFCBB4', ['#5FA57C', '#2F6B4F', '#3E8A63']],
+  ['Pilea', 'Water today', true, '#E3ECF4', '#C9DAEA', ['#3E8A63', SAGE, G]],
+  ['Calathea', 'Water in 5 days', false, '#EFE9D8', '#E1D6B7', [G, '#5FA57C', '#2F6B4F']],
+];
+const SHOP = [
+  ['Terracotta pot', '$18', false, '#F6E3D5', '#EFCBB4', [SAGE, '#5FA57C', '#3E8A63']],
+  ['Snake plant', '$32', false, '#DCEBD9', '#B9D8BE', [G, '#2F6B4F', '#3E8A63']],
+  ['Peace lily', '$27', false, '#E3ECF4', '#C9DAEA', ['#5FA57C', '#3E8A63', G]],
+  ['Rubber plant', '$35', false, '#EFE9D8', '#E1D6B7', ['#2F6B4F', G, '#5FA57C']],
+];
+document.querySelectorAll('.cards').forEach(row => {
+  const d = row.dataset, list = row.classList.contains('plants') ? PLANTS : SHOP;
+  list.forEach(([nm, st, due, g1, g2, cols], i) => {
+    const c = document.createElement('div');
+    c.className = 'card col' + (d.rv ? ' rv' : '');
+    if (d.rv) c.dataset.d = (+d.rv + i * 0.08).toFixed(2);
+    c.style.width = d.w + 'px'; c.style.flex = 'none';
+    c.innerHTML = `<div class="photo" style="width:${d.w}px;height:${d.h}px;background:linear-gradient(180deg,${g1},${g2})">${plantSvg(d.art, ...cols)}</div>
+      <div class="nm" style="font-size:${d.fs}px;margin-top:${d.w > 200 ? 10 : 6}px">${nm}</div><div class="st${due ? ' due' : ''}" style="font-size:${d.ss}px;margin-top:2px">${st}</div>`;
+    row.appendChild(c);
+  });
+});
+const TABS = {
+  Home: c => `<path d="M4 11 L12 4 L20 11 V20 H4 Z" stroke="${c}" stroke-width="1.8" fill="none" stroke-linejoin="round"/>`,
+  Plants: c => `<path d="M12 21 V10" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/><path d="M12 13 C7 13 4 9 4 5 C9 5 12 9 12 13Z M12 10 C16 10 20 7 20 3 C15 3 12 6 12 10Z" stroke="${c}" stroke-width="1.6" fill="none"/>`,
+  Shop: c => `<path d="M5 8 H19 L18 20 H6 Z M9 8 V6 a3 3 0 0 1 6 0 V8" stroke="${c}" stroke-width="1.8" fill="none" stroke-linejoin="round"/>`,
+  Profile: c => `<circle cx="12" cy="8" r="4" stroke="${c}" stroke-width="1.8" fill="none"/><path d="M4 21 C5 16 9 14 12 14 C15 14 19 16 20 21" stroke="${c}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+};
+for (const [k, f] of Object.entries(TABS)) {
+  const on = k === 'Home', col = on ? G : '#9AA59F';
+  document.querySelector('.tabbar').insertAdjacentHTML('beforeend', `<div class="tab${on ? ' on' : ''}"><svg width="24" height="24" viewBox="0 0 24 24">${f(col)}</svg>${k}</div>`);
+  document.querySelector('.nav').insertAdjacentHTML('beforeend', `<div class="it${on ? ' on' : ''}"><svg width="24" height="24" viewBox="0 0 24 24">${f(col)}</svg>${k}</div>`);
+}
+
+// ---------- timeline ----------
+const $ = id => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = x => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, t0, t1) => clamp((t - t0) / (t1 - t0));
+
+
+// detail photo art + popup backdrop (a dimmed copy of the desktop Home)
+document.querySelectorAll('.plant-photo').forEach(s => s.innerHTML = plantSvg(80, '#2F6B4F', '#3E8A63', G).replace(/^<svg[^>]*>|<\/svg>$/g, ''));
+{
+  const bd = $('dB').cloneNode(true);
+  bd.removeAttribute('id');
+  bd.querySelectorAll('.rv').forEach(e => { e.classList.remove('rv'); e.removeAttribute('data-d'); });
+  bd.style.cssText = 'position:absolute;inset:0;width:1728px;height:1117px;box-shadow:none';
+  document.querySelector('#dD .backdrop').appendChild(bd);
+}
+
+// four mobile → desktop pairs, left to right on the canvas
+const STEP = 3250;
+const EX = [
+  { m: 'mA', d: 'dA', name: 'Bloom — Welcome', sel: 1.7, create: 2.95, done: 5.6, reveal: 3.9, grid: [0, 0] },
+  { m: 'mB', d: 'dB', name: 'Bloom — Home', sel: 8.5, create: 9.45, done: 11.3, reveal: 10.0, grid: [2410, 0] },
+  { m: 'mC', d: 'dC', name: 'Bloom — Plant detail', sel: 13.1, create: 14.0, done: 15.5, reveal: 14.5, grid: [0, 1317] },
+  { m: 'mD', d: 'dD', name: 'Bloom — Bloom Plus', sel: 17.1, create: 18.0, done: 19.5, reveal: 18.5, grid: [2410, 1317] },
+];
+const R = {};
+EX.forEach((e, i) => {
+  e.base = i * STEP;
+  R[e.m] = { x: e.base, y: 0, w: 402, h: 874, name: e.name };
+  R[e.d] = { x: e.base + 482, y: 0, w: 1728, h: 1117, name: e.name + ' — Desktop' };
+});
+function panelState(t) {
+  let i = -1; EX.forEach((e, k) => { if (t >= e.sel) i = k; });
+  const prevDone = i > 0 ? EX[i - 1].name + ' — Desktop' : null;
+  if (i < 0) return { pick: null };
+  const e = EX[i];
+  if (t < e.create) return { pick: e.name, done: prevDone, sel: e.m };
+  if (t < e.done) {
+    const busy = t < e.create + 0.5 ? 'Analyzing the mobile screen…' : t < e.done - 0.5 ? 'Building the desktop layout…' : 'Checking and fixing the layout…';
+    return { pick: e.name, busy, sel: e.m };
+  }
+  const deselect = i === 0 ? 7.3 : e.done + 0.6;
+  return { pick: t < deselect ? e.name : null, done: e.name + ' — Desktop', sel: t < deselect ? e.m : null };
+}
+
+const revealEls = {};
+for (const e of EX) revealEls[e.d] = [...$(e.d).querySelectorAll('.rv')];
+
+const CLICKS = EX.flatMap(e => [e.sel, e.create]);
+
+// Scene-specific moments. The engine owns the camera, cursor, ripples, captions and end card.
+function layout(t) {
+  // finale: the four pairs slide into a 2×2 grid
+  const g = ease(prog(t, 19.8, 21.3));
+  for (const e of EX) {
+    const dx = (e.grid[0] - e.base) * g, dy = e.grid[1] * g;
+    R[e.m].x = e.base + dx; R[e.m].y = dy; R[e.d].x = e.base + 482 + dx; R[e.d].y = dy;
+    for (const id of [e.m, e.d]) { $(id).style.left = R[id].x + 'px'; $(id).style.top = R[id].y + 'px'; }
+  }
+}
+
+function update(t, ctx) {
+  // desktop frames appear, then their content builds in
+  for (const e of EX) {
+    const t0 = e.reveal, k = easeOut(prog(t, t0, t0 + 0.45)), f = $(e.d);
+    f.style.opacity = k; f.style.transform = `scale(${lerp(0.97, 1, k)})`; f.style.transformOrigin = '0 50%';
+    for (const el of revealEls[e.d]) {
+      const d = +el.dataset.d, v = easeOut(prog(t, t0 + d, t0 + d + 0.55));
+      el.style.opacity = v;
+      el.style.transform = `translate(${el.dataset.x ? (+el.dataset.x) * (1 - v) : 0}px, ${(1 - v) * 22}px)`;
+    }
+  }
+
+  const ps = panelState(t);
+  // labels above frames
+  let html = '';
+  for (const e of EX) for (const id of [e.m, e.d]) {
+    const r = R[id], vis = (id === e.d ? prog(t, e.reveal, e.reveal + 0.4) : 1) * (1 - prog(t, 19.8, 20.3));
+    if (!vis) continue;
+    const p = ctx.toScreen(r.x, r.y);
+    html += `<div class="label${id === ps.sel ? ' sel' : ''}" style="left:${p.x}px;top:${p.y}px;opacity:${vis}">${r.name}</div>`;
+  }
+  $('labels').innerHTML = html;
+  const sel = $('sel');
+  if (ps.sel) {
+    const r = R[ps.sel], p = ctx.toScreen(r.x, r.y), s = ctx.cam.s;
+    Object.assign(sel.style, { display: 'block', left: p.x - 1 + 'px', top: p.y - 1 + 'px', width: r.w * s + 2 + 'px', height: r.h * s + 2 + 'px' });
+  } else sel.style.display = 'none';
+
+  // plugin panel
+  $('pick').innerHTML = ps.pick
+    ? `<div><div class="lab">Mobile screen</div><div class="nm">${ps.pick}</div></div>`
+    : `<div class="row" style="gap:10px"><span style="font-size:22px">📱</span><div class="nm">Click a mobile screen on the canvas</div></div>`;
+  const pressed = CLICKS.some(c => t >= c - 0.05 && t < c + 0.12);
+  $('go').className = 'pbtn' + (!ps.pick || ps.busy ? ' off' : '') + (pressed && EX.some(e => Math.abs(t - e.create) < 0.2) ? ' down' : '');
+  $('prog').textContent = ps.busy || '';
+  $('done').style.display = ps.done ? 'block' : 'none';
+  $('done').textContent = ps.done ? `✓ Created “${ps.done}”` : '';
+  $('win').style.opacity = 1 - prog(t, 19.8, 20.4);
+}
+
+window.scene = { ready: document.fonts.ready, layout, update };
+</script>
+</body>
+</html>

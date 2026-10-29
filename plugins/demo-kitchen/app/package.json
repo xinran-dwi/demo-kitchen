@@ -1,0 +1,12 @@
+{
+  "name": "demo-kitchen",
+  "version": "0.1.0",
+  "description": "Pick demo-video effects like dishes from a menu, tune them with sliders, preview live, export MP4 or GIF.",
+  "private": true,
+  "type": "module",
+  "bin": { "demo-kitchen": "bin/demo-kitchen.mjs" },
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "previews": "node previews/build.mjs"
+  }
+}

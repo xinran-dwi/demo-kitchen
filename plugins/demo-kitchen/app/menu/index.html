@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Demo Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="menu.css" />
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true"></span><span class="name">Demo Kitchen</span><span class="slash">/</span><span id="project" class="project"></span></div>
+  <div class="controls">
+    <div class="seg" id="aspect" role="group" aria-label="Format"></div>
+    <div class="seg" id="speed" role="group" aria-label="Speed"></div>
+    <button class="help" id="helpBtn" title="How it works" aria-label="How it works">?</button>
+    <button class="btn primary" id="exportBtn">Export</button>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="panel" id="panel">
+    <section id="styleSection">
+      <h2><span class="step">1</span>Style</h2>
+      <div class="styles" id="styles"></div>
+    </section>
+    <section id="extraSection">
+      <h2><span class="step">2</span>Extras</h2>
+      <div class="extras" id="extras"></div>
+    </section>
+    <p class="ask">Want something more specific? Ask Claude, for example “make the cursor bigger” or “slow down on the second screen.”</p>
+  </aside>
+
+  <section class="preview">
+    <div class="pass" id="pass">
+      <div class="stage-wrap" id="stageWrap"><iframe id="player" title="Live preview"></iframe></div>
+      <div class="loading" id="loading">Loading preview…</div>
+    </div>
+    <div class="transport">
+      <button class="play" id="play" aria-label="Play">
+        <svg viewBox="0 0 24 24" class="i-play"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 24 24" class="i-pause"><rect x="6.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/><rect x="13.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/></svg>
+      </button>
+      <div class="scrub" id="scrub"><div class="track"><div class="fill" id="fill"></div><div id="marks"></div><div class="head" id="head"></div></div></div>
+      <div class="time"><span id="tNow">0:00.0</span> / <span id="tTotal">0:00.0</span></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="exportDlg">
+  <form method="dialog" class="dlg">
+    <div class="dlg-head"><h3>Export</h3><button class="close" value="close" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <div id="exportSetup">
+      <div class="choice" id="fmt">
+        <button type="button" data-v="mp4" class="on"><b>MP4</b><span>Best quality. LinkedIn, X, YouTube.</span></button>
+        <button type="button" data-v="gif"><b>GIF</b><span>Plays anywhere. Substack, README.</span></button>
+      </div>
+      <div class="row" data-for="mp4"><span>Size</span><div class="seg small" id="mp4Quality"><button type="button" data-v="1080p" class="on">1080p</button><button type="button" data-v="4k">4K</button></div></div>
+      <div class="row" data-for="gif" hidden><span>Size</span><div class="seg small" id="gifSize"><button type="button" data-v="800">Small</button><button type="button" data-v="1200" class="on">Medium</button><button type="button" data-v="1600">Large</button></div></div>
+      <p class="hint" id="exportHint"></p>
+      <div class="dlg-actions"><button class="btn" value="close">Cancel</button><button type="button" class="btn primary" id="startExport">Export</button></div>
+    </div>
+    <div id="exportRun" hidden>
+      <p class="phase" id="phase">Starting…</p>
+      <div class="bar"><div id="barFill"></div></div>
+      <p class="hint" id="phaseDetail"></p>
+      <div class="dlg-actions"><button type="button" class="btn" id="cancelExport">Cancel</button></div>
+    </div>
+    <div id="exportDone" hidden>
+      <div class="result" id="result"></div>
+      <p class="hint" id="resultInfo"></p>
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="again">Export another</button>
+        <a class="btn" id="download" download>Download</a>
+        <button type="button" class="btn primary" id="reveal">Show in Finder</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script type="module" src="menu.js"></script>
+</body>
+</html>

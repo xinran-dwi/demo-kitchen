@@ -1,0 +1,51 @@
+{
+  "name": "Minimal",
+  "description": "Quiet and clean: small cursor, no captions, soft gray backdrop.",
+  "resetOthers": true,
+  "pace": 1,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 1.2,
+      "zoom": 1
+    },
+    "cursor": {
+      "on": true,
+      "style": "white",
+      "size": 46,
+      "shadow": 0.5,
+      "smoothness": 1.2
+    },
+    "naturalMotion": {
+      "on": true,
+      "arc": 0.08,
+      "overshoot": 0.15
+    },
+    "ripple": {
+      "on": true,
+      "size": 38,
+      "thickness": 2,
+      "duration": 0.5,
+      "color": "#9CA3AF"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.1,
+      "ring": false
+    },
+    "typing": {
+      "on": true,
+      "cps": 16,
+      "caret": true
+    },
+    "background": {
+      "on": true,
+      "style": "solid",
+      "color1": "#E9E9EC",
+      "color2": "#E9E9EC",
+      "padding": 0.07,
+      "radius": 16,
+      "shadow": 0.35
+    }
+  }
+}

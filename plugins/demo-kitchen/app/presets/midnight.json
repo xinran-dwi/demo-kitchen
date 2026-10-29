@@ -1,0 +1,82 @@
+{
+  "name": "Midnight",
+  "description": "Dark launch feel: glowing violet clicks, dark browser window.",
+  "resetOthers": true,
+  "pace": 1,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 1.2,
+      "zoom": 1
+    },
+    "cursor": {
+      "on": true,
+      "style": "white",
+      "size": 56,
+      "shadow": 0.8,
+      "smoothness": 1.1
+    },
+    "naturalMotion": {
+      "on": true,
+      "arc": 0.12,
+      "overshoot": 0.25
+    },
+    "ripple": {
+      "on": true,
+      "size": 64,
+      "thickness": 3,
+      "duration": 0.6,
+      "color": "#A78BFA"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.14,
+      "ring": false
+    },
+    "typing": {
+      "on": true,
+      "cps": 16,
+      "caret": true
+    },
+    "captions": {
+      "on": true,
+      "style": "headline",
+      "position": "bottom",
+      "size": 30,
+      "color": "auto",
+      "fade": 0.45
+    },
+    "background": {
+      "on": true,
+      "style": "gradient",
+      "color1": "#2B2D3A",
+      "color2": "#0B0B10",
+      "padding": 0.09,
+      "radius": 14,
+      "shadow": 0.9
+    },
+    "frame": {
+      "on": true,
+      "style": "browser",
+      "theme": "dark"
+    },
+    "cinematic": {
+      "on": true,
+      "bars": 0,
+      "vignette": 0.35,
+      "animate": false
+    },
+    "outro": {
+      "on": true,
+      "style": "center",
+      "hold": 2.4,
+      "lead": 0
+    },
+    "fades": {
+      "on": true,
+      "color": "#000000",
+      "in": 0.5,
+      "out": 0.6
+    }
+  }
+}

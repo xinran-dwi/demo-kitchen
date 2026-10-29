@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "node plugins/demo-kitchen/app/site/build.mjs --repo xinran-dwi/demo-kitchen",
+  "outputDirectory": "site"
+}

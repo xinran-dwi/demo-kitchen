@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Demo Kitchen: polished demo videos for anything you built with Claude Code</title>
+<meta name="description" content="A free Claude Code plugin. Claude storyboards your project and builds the screens; you pick a style, flip a few switches and export an MP4 or GIF. No screen recording, no video editor." />
+<meta name="theme-color" content="#0A0A0B" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="landing.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23EDEDEF'/%3E%3Cpath d='M12 9.5v13l11-6.5z' fill='%230A0A0B'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#"><span class="logo" aria-hidden="true"></span>Demo Kitchen</a>
+    <div class="links">
+      <a href="#how">How it works</a>
+      <a href="#install">Install</a>
+      <a href="#faq">FAQ</a>
+      <a href="{{REPO_URL}}">GitHub</a>
+      <a class="btn small primary" href="#install">Install</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <p class="badge"><span class="pulse"></span>Free Claude Code plugin · Mac</p>
+  <h1>Demo videos for anything you built with Claude&nbsp;Code</h1>
+  <p class="lede">Claude plans a short demo of your project and builds the screens. You pick a style, switch on a few extras and export an MP4 or GIF. No screen recording, no video editor.</p>
+  <div class="cta">
+    <a class="btn primary" href="#install">Install it free</a>
+    <a class="btn ghost" href="#try">Try it below <span aria-hidden="true">↓</span></a>
+  </div>
+</header>
+
+<section class="try" id="try">
+  <p class="chip"><span class="live"></span>Live: this is the real tool, running a sample app. Pick a style and watch the video change.</p>
+  <div class="stage">
+    <div class="stage-glow" aria-hidden="true"></div>
+    <div class="window">
+      <div class="window-bar"><i></i><i></i><i></i><span>Demo Kitchen</span></div>
+      <iframe id="playground" src="app/menu/?static" title="Demo Kitchen playground" loading="eager"></iframe>
+      <video class="small-screen" src="app/menu/previews/style-snappy-launch.mp4" poster="app/menu/previews/style-snappy-launch.jpg" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+  <p class="small-note">Open this page on a computer to try the live playground.</p>
+</section>
+
+<section class="how reveal" id="how">
+  <p class="eyebrow">01 · How it works</p>
+  <h2>From project to video in three moves</h2>
+  <div class="how-grid">
+    <div class="card">
+      <span class="big-num">01</span>
+      <h3>Claude plans the demo</h3>
+      <p>It reads your project and suggests a short story: 3 to 5 moments, under 20 seconds. Say yes or ask for changes, in plain words.</p>
+    </div>
+    <div class="card">
+      <span class="big-num">02</span>
+      <h3>You pick the look</h3>
+      <p>Demo Kitchen opens in your browser with your product inside. Choose one of eight styles and switch on extras like captions or an end card.</p>
+    </div>
+    <div class="card">
+      <span class="big-num">03</span>
+      <h3>Export and share</h3>
+      <p>An MP4 for LinkedIn, X or YouTube, or a GIF for Substack or a README. Want something specific? Just tell Claude.</p>
+    </div>
+  </div>
+</section>
+
+<section class="install reveal" id="install">
+  <p class="eyebrow">02 · Install</p>
+  <h2>Make one for your project</h2>
+  <p class="sub">You need a Mac and the <a href="https://claude.ai/download">Claude desktop app</a> with Claude Code. You never have to open the Terminal: Claude does the technical parts and asks before it runs anything.</p>
+
+  <ol class="steps">
+    <li class="step">
+      <div class="step-text">
+        <span class="step-num">1</span>
+        <h3>Ask Claude to install it</h3>
+        <p>Open the Claude app, go to <b>Code</b>, and paste this message:</p>
+        <div class="copy">
+          <p id="installMsg">Please install the Demo Kitchen plugin for me. It's in the plugin marketplace at github.com/{{REPO}} (marketplace "demo-kitchen-tools", plugin "demo-kitchen"). Install it for my user so it works in every project, then tell me when it's ready.</p>
+          <button class="btn small copy-btn" data-copy="installMsg">Copy</button>
+        </div>
+        <p class="note">Claude will ask to run a couple of commands. Click <b>Allow</b>. When it says it's ready, start a new session.</p>
+      </div>
+      <div class="mock">
+        <div class="m-chat">
+          <div class="m-bubble">Please install the Demo Kitchen plugin for me…</div>
+          <div class="m-ask">
+            <span>Claude wants to run a command</span>
+            <div class="m-btns"><span class="m-b">Deny</span><span class="m-b on">Allow</span></div>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-text">
+        <span class="step-num">2</span>
+        <h3>Open your project</h3>
+        <p>Start a new session and choose the folder of the project you want to show off, with the folder button next to the prompt box. It's the same folder you built it in.</p>
+        <p class="note">Just want to look around first? Any folder works for the practice run in step 3.</p>
+      </div>
+      <div class="mock">
+        <div class="m-prompt">
+          <div class="m-input muted">Describe a task…</div>
+          <div class="m-row">
+            <span class="m-chip">Local ▾</span>
+            <span class="m-chip on"><svg viewBox="0 0 16 16" width="13" height="13"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.6l1.4 1.5h6a1 1 0 0 1 1 1V12a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>my-habit-tracker ▾</span>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-text">
+        <span class="step-num">3</span>
+        <h3>Type /demo-video</h3>
+        <p>Claude takes it from there: it plans the demo with you, builds the screens and opens Demo Kitchen in your browser.</p>
+        <div class="copy mono">
+          <p id="sampleMsg">/demo-video</p>
+          <button class="btn small copy-btn" data-copy="sampleMsg">Copy</button>
+        </div>
+        <p class="note">Type <b>/demo-video sample</b> instead to practice on a ready-made app first. It takes about a minute.</p>
+      </div>
+      <div class="mock">
+        <div class="m-prompt">
+          <div class="m-menu"><b>/demo-video</b><span>Turn this project into a polished demo video</span></div>
+          <div class="m-input">/demo-video<span class="caret"></span></div>
+          <div class="m-row"><span class="m-chip">Local ▾</span><span class="m-chip">my-habit-tracker ▾</span></div>
+        </div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section class="first reveal">
+  <p class="eyebrow">03 · The first time</p>
+  <h2>What to expect</h2>
+  <div class="first-grid">
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      <h3>Tools get set up</h3>
+      <p>If your Mac is missing anything (Node, a video encoder, Chrome), Claude downloads private copies into one folder. About 2 minutes, once. No passwords.</p>
+    </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+      <h3>Claude asks first</h3>
+      <p>You'll see Allow buttons along the way. Clicking Allow is how you say yes. Nothing runs without it.</p>
+    </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M10 9l5 2.5-5 2.5z"/></svg>
+      <h3>A quick welcome</h3>
+      <p>When Demo Kitchen opens, a short guide shows you around: pick a style, add extras, export.</p>
+    </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <h3>Your video, saved</h3>
+      <p>It lands in a <code>demo/out</code> folder in your project. Ask Claude “open the folder” and it will.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq reveal" id="faq">
+  <p class="eyebrow">04 · Questions</p>
+  <h2>Good to know</h2>
+  <div class="faq-list">
+    <details><summary>Does it upload my project anywhere?</summary><p>No. Demo Kitchen runs on your Mac, and the video is made on your Mac. Claude reads your project the same way it does when you build with it.</p></details>
+    <details><summary>Does it work on Windows?</summary><p>Not yet. It's Mac only for now.</p></details>
+    <details><summary>My product is a Figma plugin, a mobile app or behind a login. Can it still make a demo?</summary><p>Yes. When your product can't be recorded cleanly, Claude rebuilds the screens as a clean scene instead of filming them. That's how the Figma plugin demo in the <a href="https://designwithai.substack.com/p/create-demo-videos-with-ai">Design with AI article</a> was made.</p></details>
+    <details><summary>How do I change something small, like a caption or the cursor size?</summary><p>Ask Claude in the same chat: “change the second caption to …”, “make the cursor bigger”, “slow down when the dashboard appears”. The preview in your browser updates by itself.</p></details>
+    <details><summary>Where's my video?</summary><p>In the <code>demo/out</code> folder of your project. The export window also has a <b>Show in Finder</b> button.</p></details>
+    <details><summary>How do I remove it?</summary><p>Ask Claude: “uninstall the Demo Kitchen plugin and delete ~/.demo-kitchen”.</p></details>
+  </div>
+</section>
+
+<section class="final reveal">
+  <div class="final-glow" aria-hidden="true"></div>
+  <h2>Make your first demo video</h2>
+  <p>Free, runs on your Mac, and you never touch the Terminal.</p>
+  <div class="cta">
+    <a class="btn primary" href="#install">Install it free</a>
+    <a class="btn ghost" href="{{REPO_URL}}">View on GitHub</a>
+  </div>
+</section>
+
+<footer class="foot">
+  <p>Made by Xinran Ma for <a href="https://designwithai.substack.com">Design with AI</a> · <a href="https://designwithai.substack.com/p/create-demo-videos-with-ai">How the demo videos were made</a></p>
+</footer>
+
+<script>
+  // Copy buttons
+  document.querySelectorAll('[data-copy]').forEach((b) => b.onclick = async () => {
+    await navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent.trim());
+    b.textContent = 'Copied ✓'; b.classList.add('done');
+    setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('done'); }, 1600);
+  });
+  // "Export" inside the playground leads here
+  addEventListener('message', (e) => {
+    if (e.data?.type !== 'demo-kitchen:install') return;
+    const el = document.getElementById('install');
+    el.scrollIntoView({ behavior: 'smooth' });
+    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  });
+  // Nav border once you scroll; sections rise in as they arrive
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

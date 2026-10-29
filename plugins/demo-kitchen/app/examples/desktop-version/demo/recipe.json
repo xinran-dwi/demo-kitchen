@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "aspect": "16:9",
+  "pace": 0.85,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 1.8,
+      "zoom": 1
+    },
+    "autoZoom": {
+      "on": false,
+      "amount": 1.8,
+      "ramp": 0.7,
+      "hold": 1.2
+    },
+    "overview": {
+      "on": true,
+      "duration": 2,
+      "pad": 0.1,
+      "hold": 2
+    },
+    "cursor": {
+      "on": false,
+      "style": "arrow",
+      "size": 72,
+      "shadow": 0.6,
+      "smoothness": 1
+    },
+    "naturalMotion": {
+      "on": false,
+      "arc": 0.12,
+      "overshoot": 0.25
+    },
+    "ripple": {
+      "on": false,
+      "size": 56,
+      "thickness": 4,
+      "duration": 0.6,
+      "color": "#F59E0B"
+    },
+    "press": {
+      "on": false,
+      "squash": 0.15,
+      "ring": true,
+      "ringColor": "#F59E0B"
+    },
+    "typing": {
+      "on": true,
+      "cps": 16,
+      "caret": false
+    },
+    "captions": {
+      "on": true,
+      "style": "headline",
+      "position": "top",
+      "size": 40,
+      "color": "#2A2420",
+      "fade": 0.6
+    },
+    "background": {
+      "on": true,
+      "style": "mesh",
+      "color1": "#F9D9C4",
+      "color2": "#F4C6D0",
+      "padding": 0.1,
+      "radius": 22,
+      "shadow": 0.6
+    },
+    "frame": {
+      "on": false,
+      "style": "browser",
+      "url": "",
+      "theme": "dark"
+    },
+    "cinematic": {
+      "on": false,
+      "bars": 0,
+      "vignette": 0.35,
+      "animate": false
+    },
+    "transitions": {
+      "on": true,
+      "style": "fade",
+      "duration": 0.8
+    },
+    "slowmo": {
+      "on": false,
+      "from": 0,
+      "to": 2,
+      "speed": 0.4
+    },
+    "motionBlur": {
+      "on": false,
+      "samples": 4
+    },
+    "intro": {
+      "on": true,
+      "title": "Desktop Version",
+      "subtitle": "",
+      "duration": 2,
+      "theme": "light"
+    },
+    "outro": {
+      "on": true,
+      "title": "Desktop Version for Figma",
+      "subtitle": "Mobile screen → desktop screen, in one click",
+      "style": "solid",
+      "hold": 2.5,
+      "lead": 0
+    },
+    "fades": {
+      "on": true,
+      "color": "#FBFAF7",
+      "in": 0.8,
+      "out": 1
+    }
+  },
+  "preset": "showcase"
+}

@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "aspect": "16:9",
+  "pace": 1,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 1,
+      "zoom": 1
+    },
+    "autoZoom": {
+      "on": false,
+      "amount": 1.5,
+      "ramp": 0.6,
+      "hold": 0.9
+    },
+    "overview": {
+      "on": false,
+      "duration": 1.6,
+      "pad": 0.08,
+      "hold": 1.5
+    },
+    "cursor": {
+      "on": true,
+      "style": "arrow",
+      "size": 64,
+      "shadow": 0.6,
+      "smoothness": 1
+    },
+    "naturalMotion": {
+      "on": false,
+      "arc": 0.16,
+      "overshoot": 0.35
+    },
+    "ripple": {
+      "on": true,
+      "size": 46,
+      "thickness": 4,
+      "duration": 0.5,
+      "color": "#0D99FF"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.14,
+      "ring": false,
+      "ringColor": "#0D99FF"
+    },
+    "typing": {
+      "on": true,
+      "cps": 16,
+      "caret": true
+    },
+    "captions": {
+      "on": true,
+      "style": "headline",
+      "position": "top",
+      "size": 38,
+      "color": "#1E1E1E",
+      "fade": 0.4
+    },
+    "background": {
+      "on": false,
+      "style": "mesh",
+      "color1": "#C9D8F0",
+      "color2": "#F2D6C9",
+      "padding": 0.07,
+      "radius": 18,
+      "shadow": 0.5
+    },
+    "frame": {
+      "on": false,
+      "style": "browser",
+      "url": "yourproduct.com",
+      "theme": "light"
+    },
+    "cinematic": {
+      "on": false,
+      "bars": 0.09,
+      "vignette": 0.35,
+      "animate": true
+    },
+    "transitions": {
+      "on": false,
+      "style": "fade",
+      "duration": 0.5
+    },
+    "slowmo": {
+      "on": false,
+      "from": 0,
+      "to": 2,
+      "speed": 0.4
+    },
+    "motionBlur": {
+      "on": false,
+      "samples": 4
+    },
+    "intro": {
+      "on": false,
+      "title": "Your product",
+      "subtitle": "What it does, in one line",
+      "duration": 2,
+      "theme": "light"
+    },
+    "outro": {
+      "on": true,
+      "title": "Try it today",
+      "subtitle": "yourproduct.com",
+      "style": "top",
+      "hold": 2.7,
+      "lead": 0.9
+    },
+    "fades": {
+      "on": false,
+      "color": "#000000",
+      "in": 0.5,
+      "out": 0.6
+    }
+  }
+}

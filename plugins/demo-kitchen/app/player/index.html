@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Demo Kitchen player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=block" rel="stylesheet" />
+<style>html, body { margin: 0; padding: 0; overflow: hidden; background: transparent; } #err { font: 14px/1.5 ui-monospace, monospace; color: #b00; padding: 24px; white-space: pre-wrap; }</style>
+</head>
+<body>
+<div id="host"></div>
+<script type="module">
+import { Player } from '../engine/compose.js';
+const q = new URLSearchParams(location.search);
+const player = new Player(document.getElementById('host'), { demo: q.get('demo') || '/demo/', mode: q.get('mode') || 'preview' });
+window.player = player;
+window.playerReady = document.fonts.ready.then(() => player.load()).then(() => {
+  if (q.get('autoplay')) player.play();
+  return { total: player.total, size: player.size };
+}).catch((e) => {
+  document.body.insertAdjacentHTML('beforeend', `<div id="err">Could not load the demo:\n${e.message}</div>`);
+  throw e;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "demo-kitchen",
+  "version": "0.1.0",
+  "description": "Run /demo-video in your project: Claude storyboards a demo, then you pick effects from a menu, tune them with sliders, preview live and export MP4 or GIF.",
+  "author": { "name": "Xinran Ma" }
+}

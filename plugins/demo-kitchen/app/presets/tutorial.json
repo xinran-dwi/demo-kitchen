@@ -1,0 +1,63 @@
+{
+  "name": "Tutorial",
+  "description": "Teaches step by step: slower, zooms in, rings every click.",
+  "resetOthers": true,
+  "pace": 0.85,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 1.2,
+      "zoom": 1
+    },
+    "autoZoom": {
+      "on": true,
+      "amount": 1.8,
+      "ramp": 0.7,
+      "hold": 1.2
+    },
+    "cursor": {
+      "on": true,
+      "style": "arrow",
+      "size": 72,
+      "shadow": 0.6,
+      "smoothness": 1
+    },
+    "ripple": {
+      "on": true,
+      "size": 56,
+      "thickness": 4,
+      "duration": 0.6,
+      "color": "#F59E0B"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.15,
+      "ring": true,
+      "ringColor": "#F59E0B"
+    },
+    "typing": {
+      "on": true,
+      "cps": 10,
+      "caret": true
+    },
+    "captions": {
+      "on": true,
+      "style": "lower",
+      "position": "bottom",
+      "size": 34,
+      "color": "auto",
+      "fade": 0.4
+    },
+    "intro": {
+      "on": true,
+      "duration": 2,
+      "theme": "light"
+    },
+    "outro": {
+      "on": true,
+      "style": "solid",
+      "hold": 2.5,
+      "lead": 0
+    }
+  }
+}

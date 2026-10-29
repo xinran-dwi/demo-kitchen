@@ -1,0 +1,81 @@
+{
+  "name": "Snappy",
+  "description": "Quick pace, zooms on clicks, floating browser window.",
+  "resetOthers": true,
+  "pace": 1.2,
+  "dishes": {
+    "camera": {
+      "on": true,
+      "easing": 0.7,
+      "zoom": 1
+    },
+    "autoZoom": {
+      "on": true,
+      "amount": 1.55,
+      "ramp": 0.4,
+      "hold": 0.6
+    },
+    "cursor": {
+      "on": true,
+      "style": "white",
+      "size": 56,
+      "shadow": 0.7,
+      "smoothness": 0.7
+    },
+    "naturalMotion": {
+      "on": true,
+      "arc": 0.14,
+      "overshoot": 0.4
+    },
+    "ripple": {
+      "on": true,
+      "size": 60,
+      "thickness": 3,
+      "duration": 0.45,
+      "color": "#6C5CE7"
+    },
+    "press": {
+      "on": true,
+      "squash": 0.18,
+      "ring": false
+    },
+    "typing": {
+      "on": true,
+      "cps": 22,
+      "caret": true
+    },
+    "captions": {
+      "on": true,
+      "style": "pill",
+      "position": "bottom",
+      "size": 36,
+      "fade": 0.3
+    },
+    "background": {
+      "on": true,
+      "style": "mesh",
+      "color1": "#C9D3F5",
+      "color2": "#F6D5E3",
+      "padding": 0.06,
+      "radius": 18,
+      "shadow": 0.55
+    },
+    "frame": {
+      "on": true,
+      "style": "browser",
+      "theme": "light"
+    },
+    "outro": {
+      "on": true,
+      "style": "center",
+      "hold": 2.2,
+      "lead": 0
+    },
+    "fades": {
+      "on": true,
+      "color": "#000000",
+      "in": 0.3,
+      "out": 0.5
+    }
+  }
+}
