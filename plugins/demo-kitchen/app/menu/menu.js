@@ -271,7 +271,7 @@ function onExport(ev) {
     $('result').innerHTML = ev.out.endsWith('.gif') ? `<img src="${url}" alt="Exported GIF">` : `<video src="${url}" controls autoplay muted loop playsinline></video>`;
     $('resultInfo').textContent = `${ev.width}×${ev.height} · ${ev.seconds.toFixed(1)} s · ${(ev.size / 1e6).toFixed(1)} MB`;
     $('download').href = ev.url;
-    $('download').setAttribute('download', ev.out.split('/').pop());
+    $('download').setAttribute('download', ev.out.split(/[\\/]/).pop());
     lastOut = ev.out;
     return;
   }
@@ -315,6 +315,7 @@ async function loadStatic() {
 if (STATIC) await loadStatic(); else await loadServer().catch(loadStatic);
 styles = STYLE_ORDER.map((id) => info.presets.find((p) => p.id === id)).filter(Boolean);
 document.title = `${info.title} · Demo Kitchen`;
+$('reveal').textContent = { windows: 'Show in Explorer', linux: 'Open folder' }[info.platform] || 'Show in Finder';
 buildTop();
 buildStyles();
 buildExtras();

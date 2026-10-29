@@ -6,8 +6,13 @@ import { tmpdir, homedir } from "node:os";
 import { join } from "node:path";
 
 const TESTING = (arch) => join(homedir(), ".demo-kitchen", "tools", "chrome", `chrome-mac-${arch}`, "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+const WINDIRS = [process.env.PROGRAMFILES, process.env["PROGRAMFILES(X86)"], process.env.LOCALAPPDATA].filter(Boolean);
 const CANDIDATES = [
   process.env.CHROME_PATH,
+  // Windows: Chrome if installed, otherwise Edge, which ships with Windows 10/11 and is the same engine
+  ...WINDIRS.map((d) => join(d, "Google", "Chrome", "Application", "chrome.exe")),
+  ...WINDIRS.map((d) => join(d, "Microsoft", "Edge", "Application", "msedge.exe")),
+  join(homedir(), ".demo-kitchen", "tools", "chrome", "chrome-win64", "chrome.exe"),
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   "/Applications/Chromium.app/Contents/MacOS/Chromium",
   "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",

@@ -4,8 +4,8 @@ import http from "node:http";
 import { readFileSync, writeFileSync, existsSync, statSync, readdirSync, watch, mkdirSync, createReadStream } from "node:fs";
 import { join, resolve, extname, basename, dirname, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { spawn } from "node:child_process";
 import { record } from "./record.mjs";
+import { platform, reveal } from "./os.mjs";
 import { normalizeRecipe, applyPreset, defaultRecipe } from "../engine/catalog.js";
 
 const APP = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -71,7 +71,7 @@ export async function startServer({ demoDir, port = 4180, host = "127.0.0.1" }) 
       if (p.startsWith("/demo/")) return serveFile(res, demoDir, p.slice(5));
       if (p === "/api/info") {
         const sb = JSON.parse(readFileSync(join(demoDir, "storyboard.json"), "utf8"));
-        return send(res, 200, { demoDir, outDir, project: basename(dirname(demoDir)), title: sb.title || basename(dirname(demoDir)), presets: loadPresets(), exporting: !!job });
+        return send(res, 200, { demoDir, outDir, project: basename(dirname(demoDir)), title: sb.title || basename(dirname(demoDir)), presets: loadPresets(), exporting: !!job, platform });
       }
       if (p === "/api/recipe" && req.method === "GET") return send(res, 200, readRecipe());
       if (p === "/api/recipe" && req.method === "PUT") {
@@ -114,7 +114,7 @@ export async function startServer({ demoDir, port = 4180, host = "127.0.0.1" }) 
         const { path } = await body(req);
         const f = resolve(path || outDir);
         if (!f.startsWith(demoDir)) return send(res, 403, { error: "forbidden" });
-        spawn("open", existsSync(f) && statSync(f).isFile() ? ["-R", f] : [f]);
+        reveal(f);
         return send(res, 200, { ok: true });
       }
       if (p.startsWith("/out/")) return serveFile(res, outDir, p.slice(4));

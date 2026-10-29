@@ -24,13 +24,23 @@ Read `references/scene-contract.md` before writing any scene file. Read `referen
 
 ## 0. Get the tools ready (every time, it's quick)
 
-Tell the user in one line: "First I'll check your Mac has what Demo Kitchen needs. If anything's missing I'll download a private copy, which takes a couple of minutes the first time."
+Tell the user in one line: "First I'll check your computer has what Demo Kitchen needs. If anything's missing I'll download a private copy, which takes a couple of minutes the first time."
+
+**Mac:**
 
 ```bash
 bash "APP/setup/setup.sh"
 ```
 
-It installs only what's missing, into `~/.demo-kitchen/tools` (no Homebrew, no admin password), prints one ✓ line per tool and ends with `NODE=<path>`. Use that path wherever this skill says `NODE`. Relay the ✓ lines as a one-sentence summary. If it prints ✗, tell the user what it says in plain words. On Windows or Linux, explain that Demo Kitchen is Mac-only for now and stop.
+**Windows** (from the PowerShell tool, or from Git Bash; both work):
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File "APP/setup/setup.ps1"
+```
+
+It installs only what's missing, into `~/.demo-kitchen/tools` (no Homebrew, no installer, no admin password), prints one line per tool (`✓`/`OK` when ready, `✗`/`ERROR` on a problem) and ends with `NODE=<path>`. Use that path wherever this skill says `NODE`. Relay the result as a one-sentence summary. If it reports a problem, tell the user what it says in plain words. On Windows, Microsoft Edge (built in) renders the frames when Chrome isn't installed. Linux isn't supported yet: say so and stop.
+
+**Running `NODE` on Windows:** in Git Bash, `"NODE" "APP/bin/demo-kitchen.mjs" …` works as written. In PowerShell, put `&` in front: `& "NODE" "APP/bin/demo-kitchen.mjs" …`. Run the Demo Kitchen page in the background either way.
 
 ## Practice run: `/demo-video sample`
 
@@ -84,7 +94,7 @@ Run in the background from the project folder:
 "NODE" "APP/bin/demo-kitchen.mjs" demo
 ```
 
-It prints `Menu: http://127.0.0.1:<port>/` and opens it in the browser itself. If it was started with `--no-open`, open the printed URL with `open <url>`. Use the actual printed port.
+It prints `Menu: http://127.0.0.1:<port>/` and opens it in the browser itself. If it was started with `--no-open`, open the printed URL (`open <url>` on Mac, `start "" "<url>"` on Windows). Use the actual printed port.
 
 Then render a quick check yourself so you catch broken targets before the user does:
 
@@ -98,7 +108,7 @@ Look at a few frames (`ffmpeg -i demo/out/check.gif -vf "fps=1,scale=480:-1,tile
 
 Tell the user, briefly and in plain words:
 - Demo Kitchen is open in their browser (give the URL in case they closed it). A short welcome shows them around the first time, and the **?** button brings it back. The page has two steps: **pick a style** (Calm, Snappy, Cinematic, Minimal, Midnight, Pop, Tutorial, Showcase), then **switch on extras** (captions, zoom on clicks, backdrop, window frame, title card, end card, letterbox),
-- **Export** in the top right makes the MP4 or GIF. It's saved in the `demo/out` folder of their project; offer to open that folder for them (`open demo/out`),
+- **Export** in the top right makes the MP4 or GIF. It's saved in the `demo/out` folder of their project; offer to open that folder for them (`open demo/out` on Mac, `explorer demo\out` on Windows),
 - anything finer is a chat request to you: "bigger cursor", "caption on beat 2 should say…", "slow down the reveal". The page deliberately has no sliders. You make those changes by editing `demo/recipe.json` (every dish and param is listed in `APP/engine/catalog.js`; the page picks changes up live) or the storyboard/world (the preview reloads).
 
 Exports from the command line, when the user asks you to do it:

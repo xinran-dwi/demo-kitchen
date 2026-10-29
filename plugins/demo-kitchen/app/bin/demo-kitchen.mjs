@@ -6,9 +6,9 @@ import { resolve, join, basename, dirname } from "node:path";
 import { existsSync, readFileSync, mkdirSync, cpSync } from "node:fs";
 import { homedir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { spawn } from "node:child_process";
 import { startServer } from "../server/server.mjs";
 import { record } from "../server/record.mjs";
+import { openUrl } from "../server/os.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name, d) => { const i = args.indexOf("--" + name); return i >= 0 ? args[i + 1] : d; };
@@ -51,4 +51,4 @@ if (isExport) {
 
 const srv = await startServer({ demoDir, port: +flag("port", 4180) });
 console.log(`\n  Demo Kitchen is open for ${basename(dirname(demoDir))}\n\n  Menu:  ${srv.url}\n  Demo:  ${demoDir}\n\n  Ctrl+C to close.\n`);
-if (!has("no-open")) spawn("open", [srv.url], { stdio: "ignore" }).on("error", () => {});
+if (!has("no-open")) openUrl(srv.url);

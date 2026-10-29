@@ -43,7 +43,7 @@ Using Claude Code in the Terminal instead:
 
 2. **Open your project** — Start a session in the folder of the project you want to demo.
 
-3. **Run /demo-video** — The first time, Claude checks your Mac has what Demo Kitchen needs and downloads private copies of anything missing (about 2 minutes, no passwords). Then it proposes a short storyboard of 3 to 5 moments, under 20 seconds. Say yes or ask for changes.
+3. **Run /demo-video** — The first time, Claude checks your computer has what Demo Kitchen needs and downloads private copies of anything missing (about 2 minutes, no passwords, no installers). Then it proposes a short storyboard of 3 to 5 moments, under 20 seconds. Say yes or ask for changes.
 
 4. **Let Claude build the scene** — Claude either captures your running app or rebuilds the screens in HTML (for things like Figma plugins), and writes them to a `demo/` folder in your project.
 
@@ -57,6 +57,6 @@ Using Claude Code in the Terminal instead:
 
 ## Requirements
 
-- A Mac
+- A Mac, or a Windows 10/11 PC
 - [Claude Code](https://claude.ai/code), in the Claude desktop app or the Terminal
-- Everything else (Node, ffmpeg, gifski, Chrome) is set up by Claude on first run if it's missing
+- Everything else (Node, ffmpeg, gifski, a Chromium browser) is set up by Claude on first run if it's missing. On Windows, the built-in Microsoft Edge does the rendering
