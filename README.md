@@ -18,7 +18,7 @@ Demo Kitchen turns any project you built with Claude Code into a polished demo v
 
 ## How to use it
 
-**Try it first, nothing to install:** [the-demo-kitchen.vercel.app](https://the-demo-kitchen.vercel.app) has a live playground and a step-by-step guide with pictures.
+**Try it first, nothing to install:** [demo.designwithai.co](https://demo.designwithai.co) has a live playground and a step-by-step guide with pictures.
 
 ### Install (one time)
 
