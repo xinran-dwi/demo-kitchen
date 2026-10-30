@@ -57,6 +57,6 @@ Using Claude Code in the Terminal instead:
 
 ## Requirements
 
-- A Mac, or a Windows 10/11 PC
+- A Mac, or a Windows 10/11 PC (Windows support is in beta: [report problems](https://github.com/xinran-dwi/demo-kitchen/issues))
 - [Claude Code](https://claude.ai/code), in the Claude desktop app or the Terminal
 - Everything else (Node, ffmpeg, gifski, a Chromium browser) is set up by Claude on first run if it's missing. On Windows, the built-in Microsoft Edge does the rendering
