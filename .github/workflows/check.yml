@@ -1,0 +1,68 @@
+# Runs Demo Kitchen end to end on a clean Windows PC and a clean Mac:
+# first-run setup (downloading every tool), then a real MP4 and GIF export of the Pocket sample.
+name: Check
+on:
+  push:
+    branches: [main, windows]
+    paths: ["plugins/**", ".github/workflows/check.yml"]
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup (Windows PowerShell 5.1, download everything)
+        shell: powershell
+        run: |
+          $env:DK_FRESH = '1'
+          $out = powershell -NoProfile -ExecutionPolicy Bypass -File plugins/demo-kitchen/app/setup/setup.ps1
+          $out
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          $node = ($out | Select-String '^NODE=(.+)$').Matches[0].Groups[1].Value
+          if (-not (Test-Path $node)) { throw "node not found: $node" }
+          "NODE=$node" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          powershell -NoProfile -ExecutionPolicy Bypass -File plugins/demo-kitchen/app/setup/setup.ps1 -Check
+      - name: Export MP4 with Microsoft Edge
+        shell: powershell
+        run: |
+          $env:CHROME_PATH = "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe"
+          & $env:NODE plugins/demo-kitchen/app/bin/demo-kitchen.mjs export plugins/demo-kitchen/app/examples/pocket/demo --format mp4 --fps 30 --out out/windows-edge.mp4
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: Export GIF with the downloaded Chrome and gifski
+        shell: powershell
+        run: |
+          $env:CHROME_PATH = "$HOME\.demo-kitchen\tools\chrome\chrome-win64\chrome.exe"
+          & $env:NODE plugins/demo-kitchen/app/bin/demo-kitchen.mjs export plugins/demo-kitchen/app/examples/pocket/demo --format gif --fps 12 --width 800 --out out/windows-chrome.gif
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: Practice command serves the sample
+        shell: powershell
+        run: |
+          $p = Start-Process -FilePath $env:NODE -ArgumentList 'plugins/demo-kitchen/app/bin/demo-kitchen.mjs','practice','--no-open','--port','4199' -PassThru
+          Start-Sleep -Seconds 4
+          $info = Invoke-RestMethod http://127.0.0.1:4199/api/info
+          Stop-Process -Id $p.Id
+          "title=$($info.title) platform=$($info.platform)"
+          if ($info.platform -ne 'windows' -or -not (Test-Path "$HOME\Demo Kitchen\practice\demo\storyboard.json")) { exit 1 }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-videos
+          path: out/
+
+  mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup (download everything)
+        run: |
+          out=$(DK_FRESH=1 bash plugins/demo-kitchen/app/setup/setup.sh); echo "$out"
+          echo "$out" | grep '^NODE=' >> "$GITHUB_ENV"
+      - name: Export MP4 and GIF
+        run: |
+          export CHROME_PATH="$(ls -d ~/.demo-kitchen/tools/chrome/chrome-mac-*/Google\ Chrome\ for\ Testing.app/Contents/MacOS/Google\ Chrome\ for\ Testing | head -1)"
+          "$NODE" plugins/demo-kitchen/app/bin/demo-kitchen.mjs export plugins/demo-kitchen/app/examples/pocket/demo --format mp4 --fps 30 --out out/mac.mp4
+          "$NODE" plugins/demo-kitchen/app/bin/demo-kitchen.mjs export plugins/demo-kitchen/app/examples/pocket/demo --format gif --fps 12 --width 800 --out out/mac.gif
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac-videos
+          path: out/
