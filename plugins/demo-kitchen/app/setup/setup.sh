@@ -22,7 +22,10 @@ GIFSKI_URL="https://github.com/ImageOptim/gifski/releases/download/1.34.0/gifski
 GIFSKI_SHA="b9b6591aa163123d737353d9c8581efdf3234d28eeaa45329b31da905cd5a996"
 CHROME_JSON="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
 
-if [ "$(uname -s)" != "Darwin" ]; then echo "✗ Demo Kitchen works on Mac only for now."; exit 1; fi
+if [ "$(uname -s)" != "Darwin" ]; then
+  case "$(uname -s)" in MINGW*|MSYS*|CYGWIN*) echo "✗ This is the Mac setup. On Windows, run setup.ps1 in the same folder." ;; *) echo "✗ Demo Kitchen works on Mac and Windows for now." ;; esac
+  exit 1
+fi
 case "$(uname -m)" in arm64) ARCH=arm64 ;; *) ARCH=x64 ;; esac
 
 ok()   { echo "✓ $1"; }

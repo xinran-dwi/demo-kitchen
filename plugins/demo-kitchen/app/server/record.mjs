@@ -3,26 +3,31 @@
 import { spawn } from "node:child_process";
 import { mkdirSync, rmSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { tmpdir, homedir } from "node:os";
-import { join, dirname } from "node:path";
+import { join, dirname, basename, resolve } from "node:path";
 import { openPage } from "./chrome.mjs";
 import { ASPECTS, normalizeRecipe } from "../engine/catalog.js";
 
-// ~/.demo-kitchen/tools/bin is where setup/setup.sh puts private copies, so people never need Homebrew.
-const BIN_DIRS = [join(homedir(), ".demo-kitchen", "tools", "bin"), "/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"];
+// ~/.demo-kitchen/tools/bin is where setup/setup.sh (Mac) or setup.ps1 (Windows) puts private copies,
+// so people never need Homebrew or an installer.
+const WIN = process.platform === "win32";
+const PRIVATE = join(homedir(), ".demo-kitchen", "tools", "bin");
+const BIN_DIRS = WIN ? [PRIVATE] : [PRIVATE, "/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"];
+const PATH_DIRS = (process.env.PATH || "").split(WIN ? ";" : ":").filter(Boolean);
 export function findTool(name, { required = true } = {}) {
-  for (const d of BIN_DIRS) if (existsSync(join(d, name))) return join(d, name);
-  return required ? name : null; // fall back to PATH
+  const file = WIN ? name + ".exe" : name;
+  for (const d of [...BIN_DIRS, ...PATH_DIRS]) if (existsSync(join(d, file))) return join(d, file);
+  return required ? name : null; // let spawn try PATH and report a clear error
 }
 
-function run(cmd, args, onLine) {
+function run(cmd, args, onLine, opts = {}) {
   return new Promise((done, fail) => {
-    const p = spawn(cmd, args);
+    const p = spawn(cmd, args, opts);
     let tail = "";
     const eat = (d) => { const s = d.toString(); tail = (tail + s).slice(-4000); onLine?.(s); };
     p.stdout.on("data", eat);
     p.stderr.on("data", eat);
     p.on("error", (e) => fail(new Error(`${cmd} could not start (${e.code}). ${e.code === "ENOENT" ? "Ask Claude to run Demo Kitchen's setup again." : ""}`)));
-    p.on("exit", (code) => (code === 0 ? done() : fail(new Error(`${cmd.split("/").pop()} failed:\n${tail}`))));
+    p.on("exit", (code) => (code === 0 ? done() : fail(new Error(`${basename(cmd)} failed:\n${tail}`))));
   });
 }
 
@@ -91,9 +96,10 @@ export async function record(opts) {
         "-vf", `scale=${w}:-1:flags=lanczos,split[a][b];[a]palettegen=stats_mode=diff[p];[b][p]paletteuse=dither=sierra2_4a`, opts.out],
         (s) => { const m = s.match(/frame=\s*(\d+)/); if (m) progress("encode", +m[1], count); });
     } else if (format === "gif") {
-      const list = readdirSync(frames).filter((f) => f.endsWith(".png")).sort().map((f) => join(frames, f));
-      await run(gifski, ["--fps", String(fps), "--quality", String(opts.gifQuality || 90), "--width", String(opts.gifWidth || 1200), "-o", opts.out, ...list],
-        (s) => { const m = s.match(/(\d+)\s*\/\s*(\d+)/); if (m) progress("encode", +m[1], count); });
+      // Short names, run from the frames folder: Windows caps a command line at ~32k characters.
+      const list = readdirSync(frames).filter((f) => f.endsWith(".png")).sort();
+      await run(gifski, ["--fps", String(fps), "--quality", String(opts.gifQuality || 90), "--width", String(opts.gifWidth || 1200), "-o", resolve(opts.out), ...list],
+        (s) => { const m = s.match(/(\d+)\s*\/\s*(\d+)/); if (m) progress("encode", +m[1], count); }, { cwd: frames });
     } else {
       await run(ffmpeg, ["-y", "-loglevel", "error", "-stats", "-framerate", String(fps), "-i", join(frames, "%05d.png"),
         "-c:v", "libx264", "-preset", opts.preset || "slow", "-crf", String(opts.crf ?? 16), "-pix_fmt", "yuv420p", "-movflags", "+faststart",
